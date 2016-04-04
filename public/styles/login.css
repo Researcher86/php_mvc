@@ -1,0 +1,203 @@
+/*
+    Created on : 21.12.2014, 12:04:09
+    Author     : Tanat
+*/
+
+#auth {
+    margin: auto;
+    padding-top: 200px;
+}
+
+#auth img {
+    float: right;
+}
+
+#auth span {
+    font-size: 18px;
+    line-height: 32px;
+    font-weight: bold;
+    display: block;
+}
+
+#auth form {
+    border: 1px solid #07c;
+    border-radius: 5px;
+    width: 300px;
+    margin: auto;
+    padding: 10px;
+    background: #fc0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+#auth form div {
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+#auth form div #ch {
+    width: 15px;
+    float: left;
+}
+
+#auth form div label {
+    float: left;
+    margin-top: 3px;
+}
+
+#auth form div input {
+    width: 70px;
+    height: 25px;
+    margin-right: 2px;
+}
+
+#auth form table {
+    width: 100%;
+    padding: 10px 0;
+}
+
+#auth form table input {
+    width: 280px;
+    padding: 2px 6px;
+}
+
+#auth form table input:first-child {
+    margin-bottom: 2px;
+}
+
+#auth form table input:last-child {
+    margin-top: 2px;
+}
+
+#auth form a {
+    display: block;
+    padding: 5px 0;
+    text-align: center;
+    line-height: 21px;
+    font-size: 18px;
+    text-decoration: none;
+    color: #07c;
+    font-weight: bold;
+}
+
+#auth form a:focus, #auth form a:active, #auth form a:hover {
+    color: #f26d00;
+}
+
+/*=================================User Reg===================================*/
+
+#reg {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+#reg form table {
+    border: 1px solid #07c;
+    border-radius: 5px;
+    min-width: 745px;
+    margin: auto;
+    padding: 10px;
+    background: #F3EDD8;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+#reg form table td:last-child span {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#reg form table td:first-child span {
+    color: red;
+}
+
+#reg form table td span span {
+    color: red;
+    font-size: 12px !important;
+    font-weight: normal !important;
+}
+
+#reg form table td:first-child {
+    text-align: right;
+    padding-right: 10px;
+    vertical-align: top;
+}
+
+#reg form table td .inPut {
+    width: 100%;
+}
+
+#reg form table td select[name=day], #reg form table td select[name=year] {
+    width: 80px;
+}
+
+#reg form table td select[name=day] {
+    margin-right: 5px;
+}
+
+#reg form table td select[name=year] {
+    margin-left: 6px;
+
+}
+
+#reg form table td select[name=month] {
+    width: 145px;
+}
+
+#reg form table .hint {
+    padding-left: 10px;
+    min-width: 240px;
+}
+
+#reg form table .hint span {
+    font-size: 11px !important;
+    font-weight: normal !important;
+    color: #656972;
+}
+
+#reg form table td textarea {
+    width: 100%;
+    height: 100px;
+    resize: none;
+}
+
+#reg form input[type=submit] {
+    width: 150px;
+    height: 30px;
+}
+
+#reg form input[type=submit]:hover {
+    cursor: pointer;
+}
+
+.emailError {
+    border: 2px solid red;
+    *border: 1px solid red;
+}
+
+@-moz-document url-prefix() {
+    .emailError {
+        border: 1px solid red;
+    }
+}
+
+.emailOk {
+    border: 2px solid chartreuse;
+    *border: 1px solid chartreuse;
+}
+
+@-moz-document url-prefix() {
+    .emailOk {
+        border: 1px solid chartreuse;
+    }
+}
+
+#warning {
+    font-size: 13px !important;
+    font-weight: bold !important;
+    color: #f26d00 !important;
+}
+
+#error {
+    font-size: 13px !important;
+    font-weight: bold !important;
+    color: red !important;
+}

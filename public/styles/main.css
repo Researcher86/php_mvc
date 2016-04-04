@@ -1,0 +1,38 @@
+/*
+    Created on : 21.12.2014, 12:03:56
+    Author     : Tanat
+*/
+
+#mainContent {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+#mainContent table {
+    border: 1px solid #07c;
+    border-radius: 5px;
+    min-width: 745px;
+    margin: auto;
+    padding: 10px;
+    background: #F3EDD8;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+#mainContent table tr:first-child td {
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.tblIfoLabel {
+    width: 250px;
+    font-weight: bold;
+    text-align: right;
+    padding-right: 10px;
+    padding-bottom: 5px;
+}
+
+#mainContent table tr td img {
+    width: 64px;
+    height: 64px;
+}
