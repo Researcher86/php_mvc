@@ -7,7 +7,7 @@ namespace Core;
  * Class Config
  * @package App\Core
  */
-class Config
+final class Config
 {
     private static $settings;
     

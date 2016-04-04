@@ -1,0 +1,15 @@
+{
+  "name": "Tanat/job",
+  "description": "Implements MVC architecture",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "author's name",
+      "email": "researcher2286@gmail.com"
+    }
+  ],
+  "require": {
+    "phpunit/phpunit": "^5.3"
+  }
+}
