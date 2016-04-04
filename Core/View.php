@@ -1,6 +1,7 @@
 <?php
 
 namespace Core;
+use Core\Exceptions\E404Exception;
 
 
 /**
@@ -39,20 +40,20 @@ class View
      * Функция для рендеринга шаблонов
      * @param string $viewName - Файл шаблона
      * @return string - Сформированное тело шаблона
-     * @throws \Exception
+     * @throws E404Exception
      */
     public function render(string $viewName): string
     {
-        $fileName = realpath($this->prefix . $viewName . $this->suffix);
+        $fileName = $this->prefix . $viewName . $this->suffix;
 
         if (is_dir($fileName) || !file_exists($fileName)) {
-            throw new \Exception('View file ' . $fileName . ' does not exist');
+            throw new E404Exception('View file ' . $fileName . ' does not exist');
         }
 
         extract($this->data);
 
         ob_start();
-        include $fileName;
+        include realpath($fileName);
         return ob_get_clean();
     }
 
