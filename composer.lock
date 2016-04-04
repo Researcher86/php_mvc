@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3b7540df7c17c31827da464e855a4a8d",
-    "content-hash": "7618d3751d1838c5545132ebcfea28e2",
+    "hash": "9cfe1a3efbb0dfc497a53c2c848e86bf",
+    "content-hash": "9b0d5c2497b46fdc2eef148cfb2c391a",
     "packages": [
         {
             "name": "doctrine/instantiator",
@@ -585,6 +585,70 @@
                 "xunit"
             ],
             "time": "2016-03-24 05:58:25"
+        },
+        {
+            "name": "phpunit/phpunit-selenium",
+            "version": "3.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/giorgiosironi/phpunit-selenium.git",
+                "reference": "facc2c9421a5a784092e0471e30812e711299da7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/giorgiosironi/phpunit-selenium/zipball/facc2c9421a5a784092e0471e30812e711299da7",
+                "reference": "facc2c9421a5a784092e0471e30812e711299da7",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-dom": "*",
+                "php": ">=5.6",
+                "phpunit/phpunit": "~5.0",
+                "sebastian/comparator": "~1.0"
+            },
+            "require-dev": {
+                "phing/phing": "2.*"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "PHPUnit/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "include-path": [
+                ""
+            ],
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Giorgio Sironi",
+                    "email": "info@giorgiosironi.com",
+                    "role": "developer"
+                },
+                {
+                    "name": "Ivan Kurnosov",
+                    "email": "zerkms@zerkms.com",
+                    "role": "developer"
+                },
+                {
+                    "name": "Sebastian Bergmann",
+                    "email": "sb@sebastian-bergmann.de",
+                    "role": "original developer"
+                }
+            ],
+            "description": "Selenium Server integration for PHPUnit",
+            "homepage": "http://www.phpunit.de/",
+            "keywords": [
+                "phpunit",
+                "selenium",
+                "testing",
+                "xunit"
+            ],
+            "time": "2016-03-26 10:45:59"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
