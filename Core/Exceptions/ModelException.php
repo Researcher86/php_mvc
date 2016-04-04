@@ -6,7 +6,7 @@ namespace Core\Exceptions;
  * Ошибка модели
  * @author Tanat
  */
-class ModelException extends \Exception
+class ModelException extends AppException
 {
     // NOP
 }

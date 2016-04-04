@@ -6,7 +6,7 @@ namespace Core\Exceptions;
  * Ошибка валидности данных
  * @author Tanat
  */
-class ValidateException extends \Exception
+class ValidateException extends AppException
 {
     // NOP
 }

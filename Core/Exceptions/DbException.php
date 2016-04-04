@@ -6,7 +6,7 @@ namespace Core\Exceptions;
  * Ошибка БД
  * @author Tanat
  */
-class DbException extends \Exception
+class DbException extends AppException
 {
     // NOP
 }
