@@ -1,9 +1,6 @@
 <?php
-use Core\Config;
-use Core\Db;
 
-require_once realpath(__DIR__ . '/../../Core/Loader/autoload.php');
-
+namespace Core;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,7 +8,7 @@ require_once realpath(__DIR__ . '/../../Core/Loader/autoload.php');
  * Date: 04.04.2016
  * Time: 12:44
  */
-class DbTest extends PHPUnit_Framework_TestCase
+class DbTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testInstance()
