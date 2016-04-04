@@ -17,9 +17,10 @@ class EducationTest extends \PHPUnit_Framework_TestCase
     {
         new Config(__DIR__ . '/../../../App/config.php');
         $education = Education::getAll();
+//
+//        var_dump($education);
 
-        var_dump($education);
-
-        $this->assertTrue(false);
+        $this->assertEquals(false, true);
+//        $this->assertTrue(false);
     }
 }
