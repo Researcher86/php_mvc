@@ -11,9 +11,9 @@ abstract class AbstractController
 {
     protected $view;
 
-    public function __construct(View $view)
+    public function __construct()
     {
-        $this->view = $view;
+        $this->view = new View();
     }
 
     final protected function isGet()

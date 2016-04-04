@@ -22,7 +22,7 @@ final class Db
         $dbName = $dbConfig['dbName'];
         $user = $dbConfig['user'];
         $password = $dbConfig['password'];
-        
+
         try {
             $connectStr = $driver . ':host=' . $host . ';dbname=' . $dbName;
             $this->db = new \PDO($connectStr, $user, $password);

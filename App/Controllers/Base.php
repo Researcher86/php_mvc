@@ -18,10 +18,8 @@ abstract class Base extends AbstractController
 
     public function __construct()
     {
-        $prefix = Config::getSettings('view')['prefix'];
-        $suffix = Config::getSettings('view')['suffix'];
-        $view = new View($prefix, $suffix);
-        parent::__construct($view);
+        parent::__construct();
+                
         $this->lang = new Locale($this->getUserLang());
         $this->view->lang = $this->lang;
     }

@@ -11,7 +11,7 @@ abstract class AbstractModel
 {
     public $id;
 
-    final protected static function getConn(): Db
+    final protected static function getDb(): Db
     {
         return Db::getInstance();
     }
@@ -29,17 +29,22 @@ abstract class AbstractModel
 
     public static function getById(int $id)
     {
-        return self::getConn()->query("SELECT * FROM " . self::getTableName() . ' WHERE id = ?', [$id], self::getClassName())[0];
+        return self::getDb()->query("SELECT * FROM " . self::getTableName() . ' WHERE id = ?', [$id], self::getClassName())[0];
     }
     
     public function delete()
     {
-        return self::getConn()->execute("DELETE FROM " . self::getTableName() . ' WHERE id = ?', [$this->id], self::getClassName());
+        return self::getDb()->execute("DELETE FROM " . self::getTableName() . ' WHERE id = ?', [$this->id]);
+    }
+
+    public static function deleteAll()
+    {
+        return self::getDb()->execute("DELETE FROM " . self::getTableName(), []);
     }
 
     public static function getAll()
     {
-        return self::getConn()->query("SELECT * FROM " . self::getTableName(), [], self::getClassName());
+        return self::getDb()->query("SELECT * FROM " . self::getTableName(), [], self::getClassName());
     }
 
 }

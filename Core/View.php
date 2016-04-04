@@ -14,10 +14,10 @@ class View
     protected $prefix;
     protected $suffix;
 
-    public function __construct(string $prefix, string $suffix)
+    public function __construct()
     {
-        $this->prefix = $prefix;
-        $this->suffix = $suffix;
+        $this->prefix = Config::getSettings('view')['prefix'];
+        $this->suffix = Config::getSettings('view')['suffix'];        
     }
 
     function __get($name)
