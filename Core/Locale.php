@@ -15,7 +15,7 @@ class Locale
     public function __construct(string $lang)
     {
         $this->lang = $lang;
-        $this->cache = require Config::getSettings('messages')[$lang];
+        $this->cache = require Config::getMessages()[$lang];
     }
 
     /**

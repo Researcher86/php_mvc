@@ -195,8 +195,8 @@ class Auth extends Base
             session_unset();
             session_destroy();
         }
-        setcookie('email', '', Config::getSettings('time_die_cookie'));
-        setcookie('pass', '', Config::getSettings('time_die_cookie'));
+        setcookie('email', '', Config::getCookieSettings('time_die_cookie'));
+        setcookie('pass', '', Config::getCookieSettings('time_die_cookie'));
         $this->redirect('/auth');
     }
 }

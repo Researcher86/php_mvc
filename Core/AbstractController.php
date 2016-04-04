@@ -13,7 +13,9 @@ abstract class AbstractController
 
     public function __construct()
     {
-        $this->view = new View();
+        $prefix = Config::getViewSettings()['prefix'];
+        $suffix = Config::getViewSettings()['suffix'];
+        $this->view = new View($prefix, $suffix);
     }
 
     final protected function isGet()

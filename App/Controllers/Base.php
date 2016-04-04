@@ -19,7 +19,6 @@ abstract class Base extends AbstractController
     public function __construct()
     {
         parent::__construct();
-                
         $this->lang = new Locale($this->getUserLang());
         $this->view->lang = $this->lang;
     }

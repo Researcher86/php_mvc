@@ -16,7 +16,7 @@ final class Db
 
     private function __construct()
     {
-        $dbConfig = Config::getSettings('db');
+        $dbConfig = Config::getDbSettings();
         $driver = $dbConfig['driver'];
         $host = $dbConfig['host'];
         $dbName = $dbConfig['dbName'];
