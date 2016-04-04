@@ -21,22 +21,22 @@ USE `job` ;
 -- -----------------------------------------------------
 -- Table `job`.`educations`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `job`.`educations` ;
+DROP TABLE IF EXISTS `job`.`education` ;
 
-CREATE TABLE IF NOT EXISTS `job`.`educations` (
+CREATE TABLE IF NOT EXISTS `job`.`education` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `ru` VARCHAR(100) NOT NULL,
   `en` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`id`))
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table `job`.`users`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `job`.`users` ;
+DROP TABLE IF EXISTS `job`.`user` ;
 
-CREATE TABLE IF NOT EXISTS `job`.`users` (
+CREATE TABLE IF NOT EXISTS `job`.`user` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `lastName` VARCHAR(45) NOT NULL COMMENT 'фамилия',
   `firstName` VARCHAR(45) NOT NULL COMMENT 'имя',
@@ -45,25 +45,25 @@ CREATE TABLE IF NOT EXISTS `job`.`users` (
   `sex` ENUM('1', '2') NOT NULL,
   `email` VARCHAR(50) NOT NULL,
   `password` VARCHAR(33) NOT NULL,
-  `educations_id` INT NOT NULL,
+  `education_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `xEmail` (`email` ASC),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC),
-  INDEX `fk_users_educations1_idx` (`educations_id` ASC),
-  CONSTRAINT `fk_users_educations1`
-    FOREIGN KEY (`educations_id`)
-    REFERENCES `job`.`educations` (`id`)
+  INDEX `fk_user_education1_idx` (`education_id` ASC),
+  CONSTRAINT `fk_user_education1`
+  FOREIGN KEY (`education_id`)
+  REFERENCES `job`.`educations` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table `job`.`works`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `job`.`works` ;
+DROP TABLE IF EXISTS `job`.`work` ;
 
-CREATE TABLE IF NOT EXISTS `job`.`works` (
+CREATE TABLE IF NOT EXISTS `job`.`work` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT 'Опыт работы ',
   `organization` VARCHAR(255) NOT NULL COMMENT 'организация',
   `post` VARCHAR(100) NOT NULL COMMENT 'должность',
@@ -73,53 +73,53 @@ CREATE TABLE IF NOT EXISTS `job`.`works` (
   `jobStopMonth` TINYINT NULL COMMENT 'начало работы месяц',
   `jobStopYear` SMALLINT(4) NULL COMMENT 'окончание работы год',
   `duties` VARCHAR(1024) NULL COMMENT 'обязанности',
-  `users_id` INT NOT NULL,
+  `user_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_workExperiences_users1_idx` (`users_id` ASC),
-  CONSTRAINT `fk_workExperiences_users1`
-    FOREIGN KEY (`users_id`)
-    REFERENCES `job`.`users` (`id`)
+  INDEX `fk_work_user1_idx` (`user_id` ASC),
+  CONSTRAINT `fk_work_user1`
+  FOREIGN KEY (`user_id`)
+  REFERENCES `job`.`user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table `job`.`phones`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `job`.`phones` ;
+DROP TABLE IF EXISTS `job`.`phone` ;
 
-CREATE TABLE IF NOT EXISTS `job`.`phones` (
+CREATE TABLE IF NOT EXISTS `job`.`phone` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT 'Контактная информация (телефон (-ы) и т.п.)',
   `phone` VARCHAR(10) NOT NULL DEFAULT '-',
-  `users_id` INT NOT NULL,
+  `user_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_phones_users1_idx` (`users_id` ASC),
-  CONSTRAINT `fk_phones_users1`
-    FOREIGN KEY (`users_id`)
-    REFERENCES `job`.`users` (`id`)
+  INDEX `fk_phone_user1_idx` (`user_id` ASC),
+  CONSTRAINT `fk_phone_user1`
+  FOREIGN KEY (`user_id`)
+  REFERENCES `job`.`user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table `job`.`locations`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `job`.`locations` ;
+DROP TABLE IF EXISTS `job`.`location` ;
 
-CREATE TABLE IF NOT EXISTS `job`.`locations` (
+CREATE TABLE IF NOT EXISTS `job`.`location` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT 'Место проживания',
   `name` VARCHAR(45) NOT NULL,
-  `users_id` INT NOT NULL,
+  `user_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_locations_users1_idx` (`users_id` ASC),
-  CONSTRAINT `fk_locations_users1`
-    FOREIGN KEY (`users_id`)
-    REFERENCES `job`.`users` (`id`)
+  INDEX `fk_location_user1_idx` (`user_id` ASC),
+  CONSTRAINT `fk_location_user1`
+  FOREIGN KEY (`user_id`)
+  REFERENCES `job`.`user` (`id`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -130,55 +130,55 @@ DROP TABLE IF EXISTS `job`.`maritalStatus` ;
 CREATE TABLE IF NOT EXISTS `job`.`maritalStatus` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT 'Семейное положение',
   `name` VARCHAR(45) NOT NULL,
-  `users_id` INT NOT NULL,
+  `user_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_maritalStatus_users1_idx` (`users_id` ASC),
-  CONSTRAINT `fk_maritalStatus_users1`
-    FOREIGN KEY (`users_id`)
-    REFERENCES `job`.`users` (`id`)
+  INDEX `fk_maritalStatus_user1_idx` (`user_id` ASC),
+  CONSTRAINT `fk_maritalStatus_user1`
+  FOREIGN KEY (`user_id`)
+  REFERENCES `job`.`user` (`id`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table `job`.`abouts`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `job`.`abouts` ;
+DROP TABLE IF EXISTS `job`.`about` ;
 
-CREATE TABLE IF NOT EXISTS `job`.`abouts` (
+CREATE TABLE IF NOT EXISTS `job`.`about` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `about` VARCHAR(1024) NOT NULL,
-  `users_id` INT NOT NULL,
+  `user_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_abouts_users1_idx` (`users_id` ASC),
-  CONSTRAINT `fk_abouts_users1`
-    FOREIGN KEY (`users_id`)
-    REFERENCES `job`.`users` (`id`)
+  INDEX `fk_about_user1_idx` (`user_id` ASC),
+  CONSTRAINT `fk_about_users1`
+  FOREIGN KEY (`user_id`)
+  REFERENCES `job`.`user` (`id`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table `job`.`photos`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `job`.`photos` ;
+DROP TABLE IF EXISTS `job`.`photo` ;
 
-CREATE TABLE IF NOT EXISTS `job`.`photos` (
+CREATE TABLE IF NOT EXISTS `job`.`photo` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `patch` VARCHAR(255) NOT NULL,
   `type` VARCHAR(45) NOT NULL,
   `size` INT NOT NULL,
-  `users_id` INT NOT NULL,
+  `user_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_photos_users1_idx` (`users_id` ASC),
-  CONSTRAINT `fk_photos_users1`
-    FOREIGN KEY (`users_id`)
-    REFERENCES `job`.`users` (`id`)
+  INDEX `fk_photo_user1_idx` (`user_id` ASC),
+  CONSTRAINT `fk_photo_user1`
+  FOREIGN KEY (`user_id`)
+  REFERENCES `job`.`user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 USE `job` ;
 
@@ -192,53 +192,53 @@ DROP procedure IF EXISTS `job`.`getUserInfo`;
 DELIMITER $$
 USE `job`$$
 CREATE PROCEDURE `getUserInfo` (IN userId INT)
-BEGIN
-	SELECT 
-		u.lastName,
-		u.firstName,
-		u.patronymic,
-		DATE_FORMAT(u.yearOfBirth, '%d.%m.%Y') AS yearOfBirth,
-		u.sex,
-		u.email,
-		u.password,
-		e.en,
-		e.ru,
-		l.name as lName,
-		m.name as mName,
-		a.about,
-		(p.id) AS photoId,
-		w.organization,
-		w.post,
-		w.jobStartMonth,
-		w.jobStartYear,
-		w.forNow,
-		w.jobStopMonth,
-		w.jobStopYear,
-		w.duties,
-		c.phone
-	FROM (SELECT * FROM users WHERE users.id = userId) AS u
-	LEFT JOIN locations AS l
-	ON u.id = l.users_id
+  BEGIN
+    SELECT
+      u.lastName,
+      u.firstName,
+      u.patronymic,
+      DATE_FORMAT(u.yearOfBirth, '%d.%m.%Y') AS yearOfBirth,
+      u.sex,
+      u.email,
+      u.password,
+      e.en,
+      e.ru,
+      l.name as lName,
+      m.name as mName,
+      a.about,
+      (p.id) AS photoId,
+      w.organization,
+      w.post,
+      w.jobStartMonth,
+      w.jobStartYear,
+      w.forNow,
+      w.jobStopMonth,
+      w.jobStopYear,
+      w.duties,
+      c.phone
+    FROM (SELECT * FROM user WHERE user.id = userId) AS u
+      LEFT JOIN location AS l
+        ON u.id = l.users_id
 
-	LEFT JOIN maritalStatus AS m
-	ON u.id = m.users_id
+      LEFT JOIN maritalStatus AS m
+        ON u.id = m.user_id
 
-	LEFT JOIN educations AS e
-	ON u.educations_id = e.id
+      LEFT JOIN education AS e
+        ON u.education_id = e.id
 
-	LEFT JOIN abouts AS a
-	ON u.id = a.users_id
+      LEFT JOIN about AS a
+        ON u.id = a.user_id
 
-	LEFT JOIN photos AS p
-	ON u.id = p.users_id
+      LEFT JOIN photo AS p
+        ON u.id = p.user_id
 
-	LEFT JOIN works AS w
-	ON u.id = w.users_id
+      LEFT JOIN work AS w
+        ON u.id = w.user_id
 
-	LEFT JOIN phones AS c
-	ON u.id = c.users_id;
+      LEFT JOIN phone AS c
+        ON u.id = c.user_id;
 
-END
+  END
 $$
 
 DELIMITER ;
@@ -252,9 +252,9 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `job`;
-INSERT INTO `job`.`educations` (`id`, `ru`, `en`) VALUES (1, '-', '-');
-INSERT INTO `job`.`educations` (`id`, `ru`, `en`) VALUES (2, 'Высшее', 'Higher');
-INSERT INTO `job`.`educations` (`id`, `ru`, `en`) VALUES (3, 'Среднее', 'Average');
+INSERT INTO `job`.`education` (`id`, `ru`, `en`) VALUES (1, '-', '-');
+INSERT INTO `job`.`education` (`id`, `ru`, `en`) VALUES (2, 'Высшее', 'Higher');
+INSERT INTO `job`.`education` (`id`, `ru`, `en`) VALUES (3, 'Среднее', 'Average');
 
 COMMIT;
 
