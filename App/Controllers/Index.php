@@ -2,9 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Models\Education;
 use App\Models\Language;
-use App\Models\User;
 
 /**
  * Контроллер главной страницы
@@ -17,7 +15,7 @@ class Index extends Base
     protected function indexAction($params)
     {
         $this->view->title = $this->lang->findByKey('webappTitle');
-        $this->view->display('index/index', [
+        $this->view->renderTemplate('index/index', [
             'content' => 'index/content'
         ]);
 

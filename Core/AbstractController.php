@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core;
+namespace Core;
 
 /**
  * Абстрактный класс всех контроллеров системы
@@ -11,9 +11,9 @@ abstract class AbstractController
 {
     protected $view;
 
-    public function __construct()
+    public function __construct(View $view)
     {
-        $this->view = new View();
+        $this->view = $view;
     }
 
     final protected function isGet()

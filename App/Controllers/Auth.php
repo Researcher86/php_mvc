@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controllers;
-use App\Core\Config;
+use Core\Config;
 use App\Models\Education;
 
 /**
@@ -174,7 +174,7 @@ class Auth extends Base
     {
         $this->view->title = $this->lang->findByKey('loginAuthTitle');
         $this->view->icon = 'lock.png';
-        $this->view->display('auth/index', [
+        $this->view->renderTemplate('auth/index', [
             'content' => 'auth/login'
         ]);
     }
@@ -184,7 +184,7 @@ class Auth extends Base
         $this->view->title = $this->lang->findByKey('loginRegTitle');
         $this->view->icon = 'reg.png';
         $this->view->educations = Education::getAll();
-        $this->view->display('auth/index', [
+        $this->view->renderTemplate('auth/index', [
             'content' => 'auth/registration'
         ]);
     }

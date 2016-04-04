@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Core;
+namespace Core;
 
-use App\Core\Exceptions\E404Exception;
+use Core\Exceptions\E404Exception;
 
 /**
  * Класс приложения
  * Class Application
  * @package App\Core
  */
-class Application
+class Router
 {
     private $url;
 

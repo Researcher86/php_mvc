@@ -2,8 +2,10 @@
 
 namespace App\Controllers;
 
-use App\Core\AbstractController;
-use App\Core\Locale;
+use Core\AbstractController;
+use Core\Config;
+use Core\Locale;
+use Core\View;
 
 /**
  * Базовый класс приложения
@@ -16,7 +18,10 @@ abstract class Base extends AbstractController
 
     public function __construct()
     {
-        parent::__construct();
+        $prefix = Config::getSettings('view')['prefix'];
+        $suffix = Config::getSettings('view')['suffix'];
+        $view = new View($prefix, $suffix);
+        parent::__construct($view);
         $this->lang = new Locale($this->getUserLang());
         $this->view->lang = $this->lang;
     }

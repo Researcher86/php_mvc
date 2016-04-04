@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Core;
+namespace Core;
 
-use App\Core\Exceptions\DbException;
+use Core\Exceptions\DbException;
 
 /**
  * Класс для соединения с БД

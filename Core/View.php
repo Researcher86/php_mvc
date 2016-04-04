@@ -16,8 +16,6 @@ class View
 
     public function __construct(string $prefix, string $suffix)
     {
-//        $this->prefix = Config::getSettings('view')['prefix'];
-//        $this->suffix = Config::getSettings('view')['suffix'];        
         $this->prefix = $prefix;
         $this->suffix = $suffix;
     }

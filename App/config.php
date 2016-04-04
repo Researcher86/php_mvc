@@ -9,8 +9,12 @@ return [
         'password' => '', 
     ],
     'messages' => [
-        'en' => require __DIR__ . '/l18n/messages_en.php',
-        'ru' => require __DIR__ . '/l18n/messages_ru.php'
+        'en' => __DIR__ . '/messages_en.php',
+        'ru' => __DIR__ . '/messages_ru.php'
+    ],
+    'view' => [
+        'prefix' => __DIR__ . '/Views/',
+        'suffix' => '.php'
     ],
     'user_files_dir' => 'public/userfiles/',
     'time_life_cookie' => time() + 60 * 60 * 24 * 15,

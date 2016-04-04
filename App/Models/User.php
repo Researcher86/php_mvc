@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Core\AbstractModel;
+use Core\AbstractModel;
 
 /**
  * Модель для манипулирования данными пользователей
