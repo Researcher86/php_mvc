@@ -20,7 +20,7 @@ class EducationTest extends \PHPUnit_Framework_TestCase
 //
 //        var_dump($education);
 
-        $this->assertEquals(false, true);
+        $this->assertEquals(true, false);
 //        $this->assertTrue(false);
     }
 }
