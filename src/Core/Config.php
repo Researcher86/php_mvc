@@ -13,8 +13,8 @@ final class Config
     
     public function __construct(string $configFile)
     {
-        if (!is_readable($configFile)) {
-            throw new \Exception('Config file ' . $configFile . ' is not found or is not readable');
+        if (!file_exists($configFile)) {
+            throw new \Exception('Config file ' . $configFile . ' does not exist');
         }
         
         self::$settings = require $configFile;

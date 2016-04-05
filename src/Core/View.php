@@ -53,7 +53,7 @@ class View
         extract($this->data);
 
         ob_start();
-        include realpath($fileName);
+        require realpath($fileName);
         return ob_get_clean();
     }
 
