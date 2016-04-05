@@ -9,7 +9,7 @@ use Core\Exceptions\E404Exception;
  * Class Application
  * @package App\Core
  */
-class Router
+class Route
 {
     private $url;
 

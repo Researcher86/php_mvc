@@ -14,7 +14,7 @@ $mem = memory_get_usage();
 
 try {
     new \Core\Config(__DIR__ . '/../src/App/config.php');
-    (new \Core\Router($_SERVER['REQUEST_URI']))->run();
+    (new \Core\Route($_SERVER['REQUEST_URI']))->run();
 } catch (\Core\Exceptions\E404Exception $e) {
     //TODO: Logging error page not found 404
     echo $e->getMessage();
