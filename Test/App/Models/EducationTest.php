@@ -15,7 +15,6 @@ class EducationTest extends \PHPUnit_Framework_TestCase
 
     public function testEducation()
     {
-        new Config(__DIR__ . '/../../../App/config.php');
         $education = Education::getAll();
 //
 //        var_dump($education);
