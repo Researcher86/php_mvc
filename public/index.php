@@ -3,6 +3,9 @@
 //  Включить строгий режим для PHP 7
 declare(strict_types = 1);
 
+error_reporting(E_ALL ^ E_NOTICE);
+ini_set('display_errors', '1');
+
 require_once __DIR__ . '/../src/Core/Loader/autoload.php';
 
 // Засекаем время начала обработки запроса.
