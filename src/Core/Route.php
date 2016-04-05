@@ -25,7 +25,7 @@ class Route
         $actionName = (!empty($url[0]) ? array_shift($url) : 'index') . 'Action';
 
         $controller = '\\App\\Controllers\\' . $controllerName;
-        if (!class_exists($controller) && !is_subclass_of($controller, 'App\Core\AbstractController')) {
+        if (!class_exists($controller) && !is_subclass_of($controller, 'Core\AbstractController')) {
             throw new E404Exception('Controller ' . $controller . ' does not exist');
         }
 
