@@ -3,14 +3,14 @@
 //  Включить строгий режим для PHP 7
 declare(strict_types = 1);
 
-require_once __DIR__ . '/../Core/Loader/autoload.php';
+require_once __DIR__ . '/../src/Core/Loader/autoload.php';
 
 // Засекаем время начала обработки запроса.
 $start_time = microtime(true);
 $mem = memory_get_usage();
 
 try {
-    new \Core\Config(__DIR__ . '/../App/config.php');
+    new \Core\Config(__DIR__ . '/../src/App/config.php');
     (new \Core\Router($_SERVER['REQUEST_URI']))->run();
 } catch (\Core\Exceptions\E404Exception $e) {
     //TODO: Logging error page not found 404
