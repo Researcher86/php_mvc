@@ -5,8 +5,8 @@ namespace Core;
 use Core\Exceptions\E404Exception;
 
 /**
- * Класс приложения
- * Class Application
+ * Класс маршрутизатор
+ * Class Route
  * @package App\Core
  */
 class Route
