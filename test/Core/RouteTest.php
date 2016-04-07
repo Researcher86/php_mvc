@@ -2,11 +2,8 @@
 
 namespace Core;
 
-use Core\Exceptions\E404Exception;
-
 class RouteTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testRootDirRoute()
     {
         $route = new Route('/index');
