@@ -11,7 +11,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
         $route = new Route($_SERVER['REQUEST_URI']);
         ob_start();
         $route->run();
-        ob_clean();
+        ob_end_clean();
     }
 
     public function testSubDirControllers()
@@ -19,6 +19,6 @@ class RouteTest extends \PHPUnit_Framework_TestCase
         $route = new Route('/admin/index');
         ob_start();
         $route->run();
-        ob_clean();
+        ob_end_clean();
     }
 }
