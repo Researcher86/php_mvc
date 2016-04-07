@@ -2,23 +2,31 @@
 
 namespace Core;
 
+use Core\Exceptions\E404Exception;
+
 class RouteTest extends \PHPUnit_Framework_TestCase
 {
 
-    public function testRootDirControllers()
+    public function testRootDirRoute()
     {
-        $_SERVER['REQUEST_URI'] = '/index';
-        $route = new Route($_SERVER['REQUEST_URI']);
+        $route = new Route('/index');
         ob_start();
         $route->run();
         ob_end_clean();
     }
 
-    public function testSubDirControllers()
+    /**
+     * @expectedException Core\Exceptions\E404Exception
+     */
+    public function testIncorrectRoute()
+    {
+        $route = new Route('/index2');
+        $route->run();
+    }
+
+    public function testSubDirRoute()
     {
         $route = new Route('/admin/index');
-        ob_start();
         $route->run();
-        ob_end_clean();
     }
 }
