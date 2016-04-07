@@ -57,7 +57,7 @@ final class Db
             $stmt->execute($params);
             return $stmt->fetchAll(\PDO::FETCH_CLASS, $class);
         } catch (\PDOException $e) {
-            throw new DbException();
+            throw new DbException($e);
         }
     }
 
@@ -74,7 +74,7 @@ final class Db
             $stmt = $this->db->prepare($query);
             return $stmt->execute($params);
         } catch (\PDOException $e) {
-            throw new DbException();
+            throw new DbException($e);
         }
     }
 
@@ -88,7 +88,7 @@ final class Db
         try {
             return $this->db->lastInsertId();
         } catch (\PDOException $e) {
-            throw new DbException();
+            throw new DbException($e);
         }
     }
 
@@ -97,7 +97,7 @@ final class Db
         try {
             $this->db->beginTransaction();
         } catch (\PDOException $e) {
-            throw new DbException();
+            throw new DbException($e);
         }
     }
 
@@ -106,7 +106,7 @@ final class Db
         try {
             $this->db->commit();
         } catch (\PDOException $e) {
-            throw new DbException();
+            throw new DbException($e);
         }
     }
 
@@ -115,7 +115,7 @@ final class Db
         try {
             $this->db->rollBack();
         } catch (\PDOException $e) {
-            throw new DbException();
+            throw new DbException($e);
         }
     }
 
