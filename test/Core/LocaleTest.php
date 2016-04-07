@@ -5,9 +5,9 @@ namespace Core;
 class LocaleTest extends \PHPUnit_Framework_TestCase
 {
 
-    public function testInstance()
+    public function testCreate()
     {
-        $locale = new Locale('ru');
-        var_dump($locale->findByKey('login'));
+        $locale = new Locale('en');
+        $this->assertEquals('Login', $locale->findByKey('login'));
     }
 }
