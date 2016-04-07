@@ -49,6 +49,22 @@ class User extends AbstractModel
         return isset($this->$name);
     }
 
+    public function save()
+    {
+        self::getDb()->execute('INSERT INTO ' . self::getTableName() .
+            '(lastName, firstName, patronymic, yearOfBirth, sex, email, password, education_id) VALUES(?,?,?,?,?,?,?,?)', [
+            $this->lastName,
+            $this->firstName,
+            $this->patronymic,
+            $this->yearOfBirth,
+            $this->sex,
+            $this->email,
+            $this->password,
+            $this->education_id
+        ]);
+        $this->id = self::getDb()->lastInsertId();
+    }
+
 //    /**
 //     * Метод возвращает полную информацию о пользователе
 //     * @param int $userId - id пользователя
