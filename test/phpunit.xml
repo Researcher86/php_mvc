@@ -10,14 +10,14 @@
          stopOnFailure="false"
          syntaxCheck="false">
     <testsuites>
+        <testsuite name="Test Acceptance">
+            <directory suffix=".php">./Acceptance</directory>
+        </testsuite>
         <testsuite name="Test App">
             <directory suffix=".php">./App</directory>
         </testsuite>
         <testsuite name="Test Core">
             <directory suffix=".php">./Core</directory>
-        </testsuite>
-        <testsuite name="Test Acceptance">
-            <directory suffix=".php">./Acceptance</directory>
         </testsuite>
     </testsuites>
 </phpunit>
