@@ -31,7 +31,7 @@ abstract class BaseTest extends \PHPUnit_Extensions_Database_TestCase
                 self::$pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, FALSE);
                 self::$pdo->exec("set names utf8");
             }
-            $this->conn = $this->createDefaultDBConnection(self::$pdo, 'job');
+            $this->conn = $this->createDefaultDBConnection(self::$pdo);
         }
 
         return $this->conn;
