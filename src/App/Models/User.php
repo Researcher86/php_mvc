@@ -56,7 +56,7 @@ class User extends AbstractModel
      */
     public static function getByEmail($email)
     {
-        return self::getDb()->query('SELECT * FROM ' . self::getTableName() . ' WHERE email=?', [$email], self::getClassName())[0];
+        return self::getBy('email', $email)[0];
     }
 
     public function save()
@@ -72,7 +72,7 @@ class User extends AbstractModel
             $this->password,
             $this->education_id
         ]);
-        $this->id = self::getDb()->lastInsertId();
+        $this->id = self::getDb()->getPdo()->lastInsertId();
     }
 
 //    /**

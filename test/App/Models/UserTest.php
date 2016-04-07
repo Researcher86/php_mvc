@@ -28,7 +28,6 @@ class UserTest extends BaseTest
         $this->assertEquals($user->email, $storeUser->email);
     }
 
-
     public function testDelete()
     {
         $storeUser = User::getById(1);
@@ -37,6 +36,14 @@ class UserTest extends BaseTest
 
         $storeUser = User::getById(1);
         $this->assertNull($storeUser);
+    }
+
+    public function testDeleteAll()
+    {
+        User::deleteAll();
+
+        $count = User::getCount();
+        $this->assertEquals(0, $count);
     }
 
     public function testGetByEmail()

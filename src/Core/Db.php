@@ -11,49 +11,40 @@ use Core\Exceptions\DbException;
  */
 final class Db
 {
-    private $db;
-    private static $instance;
+    private $pdo;
 
-    private function __construct()
+    public function __construct($driver, $host, $dbName, $user, $password)
     {
-        $dbConfig = Config::getDbSettings();
-        $driver = $dbConfig['driver'];
-        $host = $dbConfig['host'];
-        $dbName = $dbConfig['dbName'];
-        $user = $dbConfig['user'];
-        $password = $dbConfig['password'];
-
         try {
-            $connectStr = $driver . ':host=' . $host . ';dbname=' . $dbName;
-            $this->db = new \PDO($connectStr, $user, $password);
-            $this->db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-            $this->db->setAttribute(\PDO::ATTR_EMULATE_PREPARES, FALSE);
-            $this->db->exec("set names utf8");
+            $this->pdo = new \PDO($driver . ':host=' . $host . ';dbname=' . $dbName, $user, $password);
+            $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            $this->pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, FALSE);
+            $this->pdo->exec("set names utf8");
         } catch (\PDOException $e) {
             throw new DbException();
         }
     }
 
-    public static function getInstance()
+    /**
+     * @return \PDO
+     */
+    public function getPdo()
     {
-        if (self::$instance == NULL) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
+        return $this->pdo;
     }
 
     /**
      * Метод выборки данных
      * @param string $query - Подготовленный запрос
      * @param array $params - параметры
-     * @return array - Возвращает результат в виде ассоциированного массива
+     * @param Object $class - Класс сущности
+     * @return array - Возвращает результат в виде массива переданного класса сущности
      * @throws DbException
      */
     public function query(string $query, array $params, $class)
     {
         try {
-            $stmt = $this->db->prepare($query);
+            $stmt = $this->pdo->prepare($query);
             $stmt->execute($params);
             return $stmt->fetchAll(\PDO::FETCH_CLASS, $class);
         } catch (\PDOException $e) {
@@ -62,61 +53,37 @@ final class Db
     }
 
     /**
+     * Нативный метод выборки данных
+     * @param string $query - Подготовленный запрос
+     * @param array $params - параметры
+     * @return array - Возвращает результат в виде ассоциированного массива
+     * @throws DbException
+     */
+    public function nativeQuery(string $query, array $params)
+    {
+        try {
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute($params);
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        } catch (\PDOException $e) {
+            throw new DbException($e);
+        }
+    } 
+
+    /**
      * Метод выполняет произвольный запрос
      * @param string $query
      * @param array|NULL $params
-     * @return mixed - Статус выполнения
+     * @return boolean - Статус выполнения
      * @throws DbException
      */
     public function execute(string $query, array $params = NULL)
     {
         try {
-            $stmt = $this->db->prepare($query);
+            $stmt = $this->pdo->prepare($query);
             return $stmt->execute($params);
         } catch (\PDOException $e) {
             throw new DbException($e);
         }
     }
-
-    /**
-     * Метод возвращает id добавленной записи
-     * @return int
-     * @throws DbException
-     */
-    public function lastInsertId()
-    {
-        try {
-            return $this->db->lastInsertId();
-        } catch (\PDOException $e) {
-            throw new DbException($e);
-        }
-    }
-
-    public function beginTransaction()
-    {
-        try {
-            $this->db->beginTransaction();
-        } catch (\PDOException $e) {
-            throw new DbException($e);
-        }
-    }
-
-    public function commitTransaction()
-    {
-        try {
-            $this->db->commit();
-        } catch (\PDOException $e) {
-            throw new DbException($e);
-        }
-    }
-
-    public function rollBackTransaction()
-    {
-        try {
-            $this->db->rollBack();
-        } catch (\PDOException $e) {
-            throw new DbException($e);
-        }
-    }
-
 }

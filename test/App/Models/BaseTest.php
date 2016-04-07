@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Core\Config;
+use Core\AbstractModel;
 use PHPUnit_Extensions_Database_DataSet_IDataSet;
 
 abstract class BaseTest extends \PHPUnit_Extensions_Database_TestCase
@@ -17,19 +17,7 @@ abstract class BaseTest extends \PHPUnit_Extensions_Database_TestCase
     {
         if ($this->conn === null) {
             if (self::$pdo == null) {
-
-                $dbConfig = Config::getDbSettings();
-                $driver = $dbConfig['driver'];
-                $host = $dbConfig['host'];
-                $dbName = $dbConfig['dbName'];
-                $user = $dbConfig['user'];
-                $password = $dbConfig['password'];
-
-                $connectStr = $driver . ':host=' . $host . ';dbname=' . $dbName;
-                self::$pdo = new \PDO($connectStr, $user, $password);
-                self::$pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-                self::$pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, FALSE);
-                self::$pdo->exec("set names utf8");
+                self::$pdo = AbstractModel::getDb()->getPdo();
             }
             $this->conn = $this->createDefaultDBConnection(self::$pdo);
         }

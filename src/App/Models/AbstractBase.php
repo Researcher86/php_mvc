@@ -10,6 +10,6 @@ abstract class AbstractBase extends AbstractModel
     
     public static function getByUserId(int $id)
     {
-        return self::getDb()->query('SELECT * FROM ' . self::getTableName() . ' WHERE user_id = ?', [$id], self::getClassName())[0];
+        return self::getBy('user_id', $id)[0];
     }
 }

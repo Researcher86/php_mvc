@@ -10,10 +10,20 @@ namespace Core;
 abstract class AbstractModel
 {
     public $id;
+    private static $db;
 
-    final protected static function getDb(): Db
+    final public static function getDb(): Db
     {
-        return Db::getInstance();
+        if (self::$db == null) {
+            $driver = Config::getDbSettings()['driver'];
+            $host = Config::getDbSettings()['host'];
+            $dbName = Config::getDbSettings()['dbName'];
+            $user = Config::getDbSettings()['user'];
+            $password = Config::getDbSettings()['password'];
+            self::$db = new Db($driver, $host, $dbName, $user, $password);
+        }
+
+        return self::$db;
     }
 
     protected static function getTableName()
@@ -29,9 +39,9 @@ abstract class AbstractModel
 
     public static function getById(int $id)
     {
-        return self::getDb()->query("SELECT * FROM " . self::getTableName() . ' WHERE id = ?', [$id], self::getClassName())[0];
+        return self::getBy('id', $id)[0];
     }
-    
+
     public function delete()
     {
         return self::getDb()->execute("DELETE FROM " . self::getTableName() . ' WHERE id = ?', [$this->id]);
@@ -47,4 +57,13 @@ abstract class AbstractModel
         return self::getDb()->query("SELECT * FROM " . self::getTableName(), [], self::getClassName());
     }
 
+    public static function getCount()
+    {
+        return self::getDb()->nativeQuery('SELECT count(*) AS cnt FROM ' . self::getTableName(), [])[0]['cnt'];
+    }
+
+    protected static function getBy($column, $value)
+    {
+        return self::getDb()->query('SELECT * FROM ' . self::getTableName() . ' WHERE ' . $column . ' = ?', [$value], self::getClassName());
+    }
 }
