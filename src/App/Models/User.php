@@ -49,6 +49,16 @@ class User extends AbstractModel
         return isset($this->$name);
     }
 
+    /**
+     * @param $email
+     * @return User
+     * @throws \Core\Exceptions\DbException
+     */
+    public static function getByEmail($email)
+    {
+        return self::getDb()->query('SELECT * FROM ' . self::getTableName() . ' WHERE email=?', [$email], self::getClassName())[0];
+    }
+
     public function save()
     {
         self::getDb()->execute('INSERT INTO ' . self::getTableName() .
