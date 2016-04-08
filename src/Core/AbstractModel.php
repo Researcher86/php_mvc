@@ -26,6 +26,11 @@ abstract class AbstractModel
         return self::$db;
     }
 
+    public function delete()
+    {
+        return self::getDb()->execute("DELETE FROM " . self::getTableName() . ' WHERE id = ?', [$this->id]);
+    }
+
     protected static function getTableName()
     {
         $class = array_pop(explode('\\', static::class));
@@ -40,11 +45,6 @@ abstract class AbstractModel
     public static function getById(int $id)
     {
         return self::getBy('id', $id)[0];
-    }
-
-    public function delete()
-    {
-        return self::getDb()->execute("DELETE FROM " . self::getTableName() . ' WHERE id = ?', [$this->id]);
     }
 
     public static function deleteAll()
