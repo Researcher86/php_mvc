@@ -10,6 +10,16 @@ class Phone extends AbstractBase
 {
     public $phone;
 
+    public function save()
+    {
+        self::getDb()->execute('INSERT INTO ' . self::getTableName() . ' (phone, user_id) VALUES(?,?)', [
+            $this->phone,
+            $this->user_id
+        ]);
+
+        $this->id = self::getDb()->getPdo()->lastInsertId();
+    }
+
 //    /**
 //     * Сохраняем информацию
 //     * @param int $userId - id пользователя

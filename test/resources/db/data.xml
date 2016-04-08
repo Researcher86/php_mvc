@@ -9,4 +9,6 @@
 
     <maritalStatus id="1" name="Женат" user_id="1"/>
     <maritalStatus id="2" name="Женат" user_id="2"/>
+
+    <phone id="1" phone="7011520885" user_id="1"/>
 </dataset>
