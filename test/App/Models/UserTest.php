@@ -10,7 +10,14 @@ class UserTest extends BaseTest
         $this->assertEquals(2, count($users));
     }
 
-    public function testCreate()
+    public function testGetById()
+    {
+        $user = User::getById(1);
+
+        $this->assertTrue($user instanceof User);
+    }
+
+    public function testCreateRequiredField()
     {
         $user = new User();
         $user->firstName = 'Танат';
@@ -26,24 +33,6 @@ class UserTest extends BaseTest
 
         $storeUser = User::getById($user->id);
         $this->assertEquals($user->email, $storeUser->email);
-    }
-
-    public function testDelete()
-    {
-        $storeUser = User::getById(1);
-
-        $storeUser->delete();
-
-        $storeUser = User::getById(1);
-        $this->assertNull($storeUser);
-    }
-
-    public function testDeleteAll()
-    {
-        User::deleteAll();
-
-        $count = User::getCount();
-        $this->assertEquals(0, $count);
     }
 
     public function testGetByEmail()
