@@ -10,6 +10,16 @@ class MaritalStatus extends AbstractBase
 {
     public $name;
 
+    public function save()
+    {
+        self::getDb()->execute('INSERT INTO ' . self::getTableName() . ' (name, user_id) VALUES(?,?)', [
+            $this->name,
+            $this->user_id
+        ]);
+
+        $this->id = self::getDb()->getPdo()->lastInsertId();
+    }
+
 //    /**
 //     * Метод сохраняет информацию
 //     * @param int $userId - id пользователя

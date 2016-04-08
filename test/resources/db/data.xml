@@ -2,7 +2,11 @@
 <dataset>
     <user id="1" firstName="Танат" lastName="Альпенов" patronymic="Маратович" yearOfBirth="1986-07-22" sex="1" education_id="2" email="researcher86@mail.ru" password="123456" />
     <user id="2" firstName="Танат2" lastName="Альпенов2" patronymic="Маратович2" yearOfBirth="1986-07-22" sex="1" education_id="2" email="researcher86@rambler.ru" password="123456" />
+    <user id="3" firstName="Иван" lastName="Иванов" patronymic="Иванович" yearOfBirth="1985-05-22" sex="1" education_id="2" email="ivan@rambler.ru" password="654321" />
 
     <location id="1" name="Костанай" user_id="1"/>
-    <location id="2" name="Костанай" user_id="2"/>
+    <location id="2" name="Костанай" user_id="3"/>
+
+    <maritalStatus id="1" name="Женат" user_id="1"/>
+    <maritalStatus id="2" name="Женат" user_id="2"/>
 </dataset>

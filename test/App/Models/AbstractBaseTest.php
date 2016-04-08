@@ -5,7 +5,7 @@ namespace App\Models;
 use Core\AbstractModel;
 use PHPUnit_Extensions_Database_DataSet_IDataSet;
 
-abstract class BaseTest extends \PHPUnit_Extensions_Database_TestCase
+abstract class AbstractBaseTest extends \PHPUnit_Extensions_Database_TestCase
 {
     // only instantiate pdo once for test clean-up/fixture load
     static private $pdo = null;

@@ -3,7 +3,7 @@
 namespace App\Models;
 
 
-class LocationTest extends BaseTest
+class LocationTest extends AbstractBaseTest
 {
 
     public function testGetById()

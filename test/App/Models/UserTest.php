@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-class UserTest extends BaseTest
+class UserTest extends AbstractBaseTest
 {
     public function testGetAll()
     {
         $users = User::getAll();
-        $this->assertEquals(2, count($users));
+        $this->assertEquals(3, count($users));
     }
 
     public function testGetById()

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class EducationTest extends BaseTest
+class EducationTest extends AbstractBaseTest
 {
 
     public function testGetAll()
