@@ -5,8 +5,18 @@ namespace App\Models;
 class EducationTest extends BaseTest
 {
 
-    public function testEducation()
+    public function testGetAll()
     {
-        $education = Education::getAll();
+        $educations = Education::getAll();
+
+        $this->assertEquals(3, count($educations));
     }
+
+    public function testGetById()
+    {
+        $education = Education::getById(2);
+
+        $this->assertTrue($education instanceof Education);
+    }
+
 }
