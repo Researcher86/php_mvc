@@ -72,7 +72,7 @@ class User extends AbstractModel
             $this->password,
             $this->education_id
         ]);
-        $this->id = self::getDb()->getPdo()->lastInsertId();
+        $this->id = self::getDb()->lastInsertId();
     }
 
 //    /**

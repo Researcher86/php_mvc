@@ -3,7 +3,7 @@
 namespace Core\Exceptions;
 
 
-class AppException extends \Exception
+class AppException extends \RuntimeException
 {
     // NOP
 }

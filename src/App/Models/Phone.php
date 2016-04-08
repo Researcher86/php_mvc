@@ -17,7 +17,7 @@ class Phone extends AbstractBase
             $this->user_id
         ]);
 
-        $this->id = self::getDb()->getPdo()->lastInsertId();
+        $this->id = self::getDb()->lastInsertId();
     }
 
 //    /**

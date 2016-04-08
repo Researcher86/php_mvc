@@ -13,10 +13,10 @@ final class Db
 {
     private $pdo;
 
-    public function __construct($driver, $host, $dbName, $user, $password)
+    public function __construct(array $config)
     {
         try {
-            $this->pdo = new \PDO($driver . ':host=' . $host . ';dbname=' . $dbName, $user, $password);
+            $this->pdo = new \PDO($config['driver'] . ':host=' . $config['host'] . ';dbname=' . $config['dbName'], $config['user'], $config['password']);
             $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
             $this->pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, FALSE);
             $this->pdo->exec("set names utf8");
@@ -85,5 +85,37 @@ final class Db
         } catch (\PDOException $e) {
             throw new DbException($e);
         }
+    }
+
+    /**
+     * @param string $name [optional] Name of the sequence object from which the ID should be returned.
+     * @return string
+     */
+    public function lastInsertId($name = null)
+    {
+        return $this->pdo->lastInsertId($name);
+    }
+
+    /**
+     * @return array
+     */
+    public function getErrorInfo()
+    {
+        return $this->pdo->errorInfo();
+    }
+
+    public function beginTransaction()
+    {
+        return $this->pdo->beginTransaction();
+    }
+
+    public function rollbackTransaction()
+    {
+        return $this->pdo->rollback();
+    }
+
+    public function commitTransaction()
+    {
+        return $this->pdo->commit();
     }
 }

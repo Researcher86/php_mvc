@@ -12,25 +12,6 @@ abstract class AbstractModel
     public $id;
     private static $db;
 
-    final public static function getDb(): Db
-    {
-        if (self::$db == null) {
-            $driver = Config::getDbSettings()['driver'];
-            $host = Config::getDbSettings()['host'];
-            $dbName = Config::getDbSettings()['dbName'];
-            $user = Config::getDbSettings()['user'];
-            $password = Config::getDbSettings()['password'];
-            self::$db = new Db($driver, $host, $dbName, $user, $password);
-        }
-
-        return self::$db;
-    }
-
-    public function delete()
-    {
-        return self::getDb()->execute("DELETE FROM " . self::getTableName() . ' WHERE id = ?', [$this->id]);
-    }
-
     protected static function getTableName()
     {
         $class = array_pop(explode('\\', static::class));
@@ -40,6 +21,24 @@ abstract class AbstractModel
     protected static function getClassName()
     {
         return static::class;
+    }
+
+    protected static function getBy($column, $value)
+    {
+        return self::getDb()->query('SELECT * FROM ' . self::getTableName() . ' WHERE ' . $column . ' = ?', [$value], self::getClassName());
+    }
+
+    final public static function getDb(): Db
+    {
+        if (self::$db == null) {
+            self::$db = new Db(Config::getDbSettings());
+        }
+        return self::$db;
+    }
+
+    public function delete()
+    {
+        return self::getDb()->execute("DELETE FROM " . self::getTableName() . ' WHERE id = ?', [$this->id]);
     }
 
     public static function getById(int $id)
@@ -60,10 +59,5 @@ abstract class AbstractModel
     public static function getCount()
     {
         return self::getDb()->nativeQuery('SELECT count(*) AS cnt FROM ' . self::getTableName(), [])[0]['cnt'];
-    }
-
-    protected static function getBy($column, $value)
-    {
-        return self::getDb()->query('SELECT * FROM ' . self::getTableName() . ' WHERE ' . $column . ' = ?', [$value], self::getClassName());
     }
 }
