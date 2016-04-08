@@ -21,7 +21,7 @@ final class Db
             $this->pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, FALSE);
             $this->pdo->exec("set names utf8");
         } catch (\PDOException $e) {
-            throw new DbException();
+            throw new DbException($e);
         }
     }
 
