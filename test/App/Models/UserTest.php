@@ -17,6 +17,12 @@ class UserTest extends AbstractBaseTest
         $this->assertTrue($user instanceof User);
     }
 
+    public function testGetByEmail()
+    {
+        $user = User::getByEmail('researcher86@mail.ru');
+        $this->assertEquals(1, count($user));
+    }
+    
     public function testCreateRequiredField()
     {
         $user = new User();
@@ -31,10 +37,18 @@ class UserTest extends AbstractBaseTest
 
         $user->save();
 
-        $storeUser = User::getById($user->id);
-        $this->assertEquals($user->email, $storeUser->email);
-        $this->assertEquals(2, $storeUser->education->id);
+        $store = User::getById($user->id);
+        $this->assertEquals($user->email, $store->email);
+        $this->assertEquals(2, $store->education->id);
+
+        $this->assertEquals(null, $store->about);
+        $this->assertEquals(null, $store->location);
+        $this->assertEquals(null, $store->maritalStatus);
+        $this->assertEquals(null, $store->phone);
+        $this->assertEquals(null, $store->photo);
+        $this->assertEquals(null, $store->work);
     }
+
     public function testCreateNotRequiredField()
     {
         $about = new About();
@@ -83,17 +97,11 @@ class UserTest extends AbstractBaseTest
 
         $userStore = User::getById($user->id);
         $this->assertEquals($userStore->id, $userStore->about->user_id);
-        $this->assertEquals($userStore->id, $userStore->location->user_id);        
+        $this->assertEquals($userStore->id, $userStore->location->user_id);
         $this->assertEquals($userStore->id, $userStore->maritalStatus->user_id);
         $this->assertEquals($userStore->id, $userStore->phone->user_id);
         $this->assertEquals($userStore->id, $userStore->photo->user_id);
         $this->assertEquals($userStore->id, $userStore->work->user_id);
-    }
-
-    public function testGetByEmail()
-    {
-        $user = User::getByEmail('researcher86@mail.ru');
-        $this->assertEquals(1, count($user));
     }
 
 }
