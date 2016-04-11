@@ -12,6 +12,14 @@ class Photo extends AbstractBase
     public $type;
     public $size;
 
+    public function save()
+    {
+        $result = self::getDb()->execute('INSERT INTO ' . self::getTableName() . ' (path, type, size, user_id) VALUES(?,?,?,?)',
+            [$this->path, $this->type, $this->size, $this->user_id]);
+        $this->id = self::getDb()->lastInsertId();
+        return $result;
+    }
+
 //    /**
 //     * Сохраняем файл в пользовательскую папку, и записываем информацию в базу
 //     * @param int $userId - id пользователя
