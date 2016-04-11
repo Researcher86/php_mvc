@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-require_once 'AbstractBaseTest.php';
-
 class AboutTest extends AbstractBaseTest
 {
 
