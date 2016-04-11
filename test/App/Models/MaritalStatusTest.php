@@ -18,9 +18,12 @@ class MaritalStatusTest extends AbstractBaseTest
         $maritalStatus = new MaritalStatus();
         $maritalStatus->name = 'Холост';
         $maritalStatus->user_id = 3;
+        
         $maritalStatus->save();
 
-        $this->assertEquals($maritalStatus->name, MaritalStatus::getById($maritalStatus->id)->name);
+        $store = MaritalStatus::getById($maritalStatus->id);
+        $this->assertEquals($maritalStatus->name, $store->name);
+        $this->assertEquals($maritalStatus->user_id, $store->user_id);
     }
 
 
