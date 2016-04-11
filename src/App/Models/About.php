@@ -10,6 +10,13 @@ class About extends AbstractBase
 {
     public $about;
 
+    public function save()
+    {
+        $result = self::getDb()->execute('INSERT INTO ' . self::getTableName() . ' (about, user_id) VALUES(?,?)', [$this->about, $this->user_id]);
+        $this->id = self::getDb()->lastInsertId();
+        return $result;
+    }
+
 //    /**
 //     * Сохраняем информацию
 //     * @param int $userId - id пользователя
