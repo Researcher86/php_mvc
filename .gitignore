@@ -46,4 +46,4 @@ fabric.properties
 /.idea
 job.kz.iml
 /vendor
-/composer.lock
+composer.lock
