@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Core\AbstractModel;
+use Core\Exceptions\ModelException;
 
 /**
  * Модель для манипулирования данными пользователей
@@ -17,7 +18,7 @@ class User extends AbstractModel
     public $sex;
     public $email;
     public $password;
-    public $education_id;
+    protected $education_id;
 
     function __get($name)
     {
@@ -61,6 +62,12 @@ class User extends AbstractModel
 
     public function save()
     {
+        if (!isset($this->education)) {
+            throw new ModelException('Education is null');
+        }
+
+        self::getDb()->beginTransaction();
+
         self::getDb()->execute('INSERT INTO ' . self::getTableName() .
             '(lastName, firstName, patronymic, yearOfBirth, sex, email, password, education_id) VALUES(?,?,?,?,?,?,?,?)', [
             $this->lastName,
@@ -70,9 +77,42 @@ class User extends AbstractModel
             $this->sex,
             $this->email,
             $this->password,
-            $this->education_id
+            $this->education->id
         ]);
         $this->id = self::getDb()->lastInsertId();
+
+        if (isset($this->about)) {
+            $this->about->user_id = $this->id;
+            $this->about->save();
+        }
+
+        if (isset($this->location)) {
+            $this->location->user_id = $this->id;
+            $this->location->save();
+        }
+
+        if (isset($this->maritalStatus)) {
+            $this->maritalStatus->user_id = $this->id;
+            $this->maritalStatus->save();
+        }
+
+        if (isset($this->phone)) {
+            $this->phone->user_id = $this->id;
+            $this->phone->save();
+        }
+
+        if (isset($this->photo)) {
+            $this->photo->user_id = $this->id;
+            $this->photo->save();
+        }
+
+        if (isset($this->work)) {
+            $this->work->user_id = $this->id;
+            $this->work->save();
+        }
+
+
+        self::getDb()->commitTransaction();
     }
 
 //    /**
