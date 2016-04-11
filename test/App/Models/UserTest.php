@@ -37,16 +37,6 @@ class UserTest extends AbstractBaseTest
     }
     public function testCreateNotRequiredField()
     {
-        $user = new User();
-        $user->firstName = 'Танат';
-        $user->lastName = 'Альпенов';
-        $user->patronymic = 'Маратович';
-        $user->yearOfBirth = '1986-07-22';
-        $user->sex = 1;
-        $user->education = Education::getById(2);
-        $user->email = 'researcher2286@gmail.com';
-        $user->password = '123456';
-
         $about = new About();
         $about->about = 'Я простой программист';
 
@@ -72,6 +62,16 @@ class UserTest extends AbstractBaseTest
         $work->forNow = true;
         $work->duties = 'Разработка ПО внутренней автоматизации предприятия, Java, PHP, MySQL.';
 
+        $user = new User();
+        $user->firstName = 'Танат';
+        $user->lastName = 'Альпенов';
+        $user->patronymic = 'Маратович';
+        $user->yearOfBirth = '1986-07-22';
+        $user->sex = 1;
+        $user->education = Education::getById(2);
+        $user->email = 'researcher2286@gmail.com';
+        $user->password = '123456';
+
         $user->about = $about;
         $user->location = $location;
         $user->maritalStatus = $maritalStatus;
@@ -82,7 +82,6 @@ class UserTest extends AbstractBaseTest
         $user->save();
 
         $userStore = User::getById($user->id);
-
         $this->assertEquals($userStore->id, $userStore->about->user_id);
         $this->assertEquals($userStore->id, $userStore->location->user_id);        
         $this->assertEquals($userStore->id, $userStore->maritalStatus->user_id);
