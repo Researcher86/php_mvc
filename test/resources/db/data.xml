@@ -2,13 +2,11 @@
 <dataset>
     <user id="1" firstName="Танат" lastName="Альпенов" patronymic="Маратович" yearOfBirth="1986-07-22" sex="1" education_id="2" email="researcher86@mail.ru" password="123456" />
     <user id="2" firstName="Танат2" lastName="Альпенов2" patronymic="Маратович2" yearOfBirth="1986-07-22" sex="1" education_id="2" email="researcher86@rambler.ru" password="123456" />
-    <user id="3" firstName="Иван" lastName="Иванов" patronymic="Иванович" yearOfBirth="1985-05-22" sex="1" education_id="2" email="ivan@rambler.ru" password="654321" />
 
+    <about id="1" about="Я простой программист" user_id="1"/>
     <location id="1" name="Костанай" user_id="1"/>
-    <location id="2" name="Костанай" user_id="3"/>
-
     <maritalStatus id="1" name="Женат" user_id="1"/>
-    <maritalStatus id="2" name="Женат" user_id="2"/>
-
     <phone id="1" phone="7011520885" user_id="1"/>
+    <photo id="1" path="C:\OpenServer\domains\job.kz\public\userfiles\1.png" type="image/png" size="20480" user_id="1"/>
+    <work id="1" organization="КИнЭУ" post="Инженер-программист" jobStartMonth="5" jobStartYear="2014" jobStopMonth="5" jobStopYear="2014" forNow="1" duties="Разработка ПО внутренней автоматизации предприятия, Java, PHP, MySQL." user_id="1"/>
 </dataset>

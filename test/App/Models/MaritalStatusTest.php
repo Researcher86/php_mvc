@@ -17,8 +17,8 @@ class MaritalStatusTest extends AbstractBaseTest
     {
         $maritalStatus = new MaritalStatus();
         $maritalStatus->name = 'Холост';
-        $maritalStatus->user_id = 3;
-        
+        $maritalStatus->user_id = 1;
+
         $maritalStatus->save();
 
         $store = MaritalStatus::getById($maritalStatus->id);

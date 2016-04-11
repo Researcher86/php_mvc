@@ -7,7 +7,7 @@ class UserTest extends AbstractBaseTest
     public function testGetAll()
     {
         $users = User::getAll();
-        $this->assertEquals(3, count($users));
+        $this->assertEquals(2, count($users));
     }
 
     public function testGetById()
@@ -22,7 +22,7 @@ class UserTest extends AbstractBaseTest
         $user = User::getByEmail('researcher86@mail.ru');
         $this->assertEquals(1, count($user));
     }
-    
+
     public function testCreateRequiredField()
     {
         $user = new User();
