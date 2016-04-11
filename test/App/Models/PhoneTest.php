@@ -18,9 +18,12 @@ class PhoneTest extends AbstractBaseTest
         $phone = new Phone();
         $phone->phone = '7011520885';
         $phone->user_id = 1;
+        
         $phone->save();
 
-        $this->assertEquals($phone->phone, Phone::getById($phone->id)->phone);
+        $store = Phone::getById($phone->id);
+        $this->assertEquals($phone->phone, $store->phone);
+        $this->assertEquals($phone->user_id, $store->user_id);
     }
 
 

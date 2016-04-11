@@ -12,12 +12,13 @@ class Phone extends AbstractBase
 
     public function save()
     {
-        self::getDb()->execute('INSERT INTO ' . self::getTableName() . ' (phone, user_id) VALUES(?,?)', [
+        $result = self::getDb()->execute('INSERT INTO ' . self::getTableName() . ' (phone, user_id) VALUES(?,?)', [
             $this->phone,
             $this->user_id
         ]);
 
         $this->id = self::getDb()->lastInsertId();
+        return $result;
     }
 
 //    /**
