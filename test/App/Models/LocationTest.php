@@ -18,9 +18,12 @@ class LocationTest extends AbstractBaseTest
         $location = new Location();
         $location->name = 'г. Костанай';
         $location->user_id = 1;
+        
         $location->save();
 
-        $this->assertEquals($location->name, Location::getById($location->id)->name);
+        $store = Location::getById($location->id);
+        $this->assertEquals($location->name, $store->name);
+        $this->assertEquals($location->user_id, $store->user_id);
     }
 
 
