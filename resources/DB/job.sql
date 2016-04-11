@@ -148,7 +148,7 @@ CREATE TABLE IF NOT EXISTS `job`.`about` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `job`.`photo` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `patch` VARCHAR(255) NOT NULL,
+  `path` VARCHAR(255) NOT NULL,
   `type` VARCHAR(45) NOT NULL,
   `size` INT NOT NULL,
   `user_id` INT NOT NULL,
