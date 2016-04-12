@@ -23,6 +23,8 @@ class UserTest extends AbstractBaseTest
         $this->assertEquals(1, count($user));
     }
 
+
+
     public function testCreateRequiredField()
     {
         $user = new User();
@@ -39,6 +41,7 @@ class UserTest extends AbstractBaseTest
 
         $store = User::getById($user->id);
         $this->assertEquals($user->email, $store->email);
+        $this->assertTrue(password_verify($user->password, $store->password));
         $this->assertEquals(2, $store->education->id);
 
         $this->assertEquals(null, $store->about);
@@ -47,6 +50,11 @@ class UserTest extends AbstractBaseTest
         $this->assertEquals(null, $store->phone);
         $this->assertEquals(null, $store->photo);
         $this->assertEquals(null, $store->work);
+    }
+
+    public function testAuthorization()
+    {
+        $this->assertTrue(User::authorization('researcher86@mail.ru', '123456'));
     }
 
     public function testCreateNotRequiredField()

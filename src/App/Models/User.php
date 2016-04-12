@@ -20,6 +20,12 @@ class User extends AbstractModel
     public $password;
     protected $education_id;
 
+    public static function authorization($email, $password): bool
+    {
+        $result = self::getDb()->nativeQuery('SELECT email, password FROM user WHERE email = ?', [$email])[0];
+        return !strcmp($email, $result['email']) && password_verify($password, $result['password']);
+    }
+
     function __get($name)
     {
         switch ($name) {
@@ -76,7 +82,7 @@ class User extends AbstractModel
             $this->yearOfBirth,
             $this->sex,
             $this->email,
-            $this->password,
+            password_hash($this->password, PASSWORD_BCRYPT),
             $this->education->id
         ]);
         $this->id = self::getDb()->lastInsertId();
