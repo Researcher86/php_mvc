@@ -39,9 +39,6 @@ abstract class AbstractController
     }
 
     abstract protected function beforeAction();
-
-    abstract protected function indexAction($params);
-
     abstract protected function afterAction();
 
     /**
