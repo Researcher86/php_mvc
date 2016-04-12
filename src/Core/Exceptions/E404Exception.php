@@ -1,6 +1,7 @@
 <?php
 
 namespace Core\Exceptions;
+use Exception;
 
 /**
  * Ошибка страница не найдена
@@ -8,5 +9,9 @@ namespace Core\Exceptions;
  */
 class E404Exception extends AppException
 {
-    // NOP
+    public function __construct($message)
+    {
+        parent::__construct($message, null, 404);
+    }
+
 }

@@ -1,6 +1,7 @@
 <?php
 
 namespace Core\Exceptions;
+use Exception;
 
 /**
  * Ошибка валидности данных
@@ -8,5 +9,10 @@ namespace Core\Exceptions;
  */
 class ValidateException extends AppException
 {
-    // NOP
+    public function __construct($message)
+    {
+        // 417 Expectation Failed («ожидаемое неприемлемо»)
+        parent::__construct($message, null, 417);
+    }
+
 }

@@ -1,6 +1,7 @@
 <?php
 
 namespace Core\Exceptions;
+use Exception;
 
 /**
  * Ошибка БД
@@ -8,5 +9,9 @@ namespace Core\Exceptions;
  */
 class DbException extends AppException
 {
-    // NOP
+    public function __construct(Exception $previous)
+    {
+        parent::__construct('Db error', $previous);
+    }
+
 }
