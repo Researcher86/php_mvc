@@ -163,64 +163,6 @@ CREATE TABLE IF NOT EXISTS `job`.`photo` (
 
 USE `job` ;
 
--- -----------------------------------------------------
--- procedure getUserInfo
--- -----------------------------------------------------
-
-DELIMITER $$
-USE `job`$$
-CREATE PROCEDURE `getUserInfo` (IN userId INT)
-  BEGIN
-    SELECT
-      u.lastName,
-      u.firstName,
-      u.patronymic,
-      DATE_FORMAT(u.yearOfBirth, '%d.%m.%Y') AS yearOfBirth,
-      u.sex,
-      u.email,
-      u.password,
-      e.en,
-      e.ru,
-      l.name as lName,
-      m.name as mName,
-      a.about,
-      (p.id) AS photoId,
-      w.organization,
-      w.post,
-      w.jobStartMonth,
-      w.jobStartYear,
-      w.forNow,
-      w.jobStopMonth,
-      w.jobStopYear,
-      w.duties,
-      c.phone
-    FROM (SELECT * FROM users WHERE users.id = userId) AS u
-      LEFT JOIN locations AS l
-        ON u.id = l.users_id
-
-      LEFT JOIN maritalStatus AS m
-        ON u.id = m.users_id
-
-      LEFT JOIN educations AS e
-        ON u.educations_id = e.id
-
-      LEFT JOIN abouts AS a
-        ON u.id = a.users_id
-
-      LEFT JOIN photos AS p
-        ON u.id = p.users_id
-
-      LEFT JOIN works AS w
-        ON u.id = w.users_id
-
-      LEFT JOIN phones AS c
-        ON u.id = c.users_id;
-
-  END
-$$
-
-DELIMITER ;
-
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
