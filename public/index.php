@@ -8,7 +8,6 @@ ini_set('display_errors', '1');
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-// Засекаем время начала обработки запроса.
 $start_time = microtime(true);
 $mem = memory_get_usage();
 
@@ -33,9 +32,7 @@ try {
     throw $e;
 }
 
-// Время обработки запроса.
 $time = microtime(true) - $start_time;
 echo "<!--\nВремя генерации страницы: $time сек.\n";
-
 echo 'Размер выделенной памяти: ', memory_get_usage() - $mem, " Byte, ";
 echo round((memory_get_usage() - $mem) / 1024), " Kb\n-->";
