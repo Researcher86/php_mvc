@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `job`.`user` (
   `yearOfBirth` DATE NOT NULL COMMENT 'Год рождения',
   `sex` ENUM('1', '2') NOT NULL,
   `email` VARCHAR(50) NOT NULL,
-  `password` VARCHAR(33) NOT NULL,
+  `password` VARCHAR(60) NOT NULL,
   `education_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `xEmail` (`email` ASC),
