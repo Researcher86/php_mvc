@@ -1,7 +1,6 @@
 <?php
 
-//  Включить строгий режим для PHP 7
-declare(strict_types = 1);
+declare(strict_types = 1); //  Включить строгий режим для PHP 7
 
 error_reporting(E_ALL ^ E_NOTICE);
 ini_set('display_errors', '1');

@@ -67,6 +67,11 @@ class User extends AbstractModel
         return !strcmp($email, $result['email']) && password_verify($password, $result['password']);
     }
 
+    public static function getHash($param)
+    {
+        return password_hash($param, PASSWORD_BCRYPT);
+    }
+
     public function save()
     {
         if (!isset($this->education)) {

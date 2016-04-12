@@ -15,9 +15,18 @@ use Core\View;
 abstract class Base extends AbstractController
 {
     protected $lang;
+    protected $login = true;
 
     public function __construct()
     {
+        if (!session_id()) {
+            session_start();
+        }
+        
+        if ($this->login && !$_SESSION['authorized']) {
+            $this->redirect('/auth');
+        }
+
         parent::__construct();
         $this->lang = new Locale($this->getUserLang());
         $this->view->lang = $this->lang;

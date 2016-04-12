@@ -34,9 +34,9 @@ final class Config
         return $view;
     }    
     
-    public static function getCookieSettings()
+    public static function getCookieSettings($key)
     {
-        $cookie = self::getSettings('cookie');
+        $cookie = self::getSettings('cookie')[$key];
         if (!isset($cookie)) {
             throw new \Exception('Cookie settings is null');
         }

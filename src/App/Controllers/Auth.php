@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Controllers;
-use Core\Config;
+
 use App\Models\Education;
+use App\Models\User;
+use Core\Config;
 
 /**
  * Контроллер страницы авторизации
@@ -11,30 +13,12 @@ use App\Models\Education;
  */
 class Auth extends Base
 {
+    public function __construct()
+    {
+        $this->login = false;
+        parent::__construct();
+    }
 
-//    const VIEWS_PATCH = "application/views/login/";
-
-//    public function __construct()
-//    {
-//        parent::__construct();
-//        $this->_registered = FALSE; // Временно отключаем проверку на регистрацию
-//    }
-//
-//    protected function onInput()
-//    {
-//
-//    }
-//
-//    protected function onOutput()
-//    {
-//        $this->addPageData("title", $this->title);
-//        $this->addPageData("icon", $this->icon);
-//
-//        $this->addPageData("content", $this->_content);
-//        // Генерируем всю страницу
-//        $this->_page = $this->render(self::VIEWS_PATCH . "index.php");
-//    }
-//
 //    /**
 //     * Метод генерации страницы авторизации
 //     */
@@ -167,6 +151,15 @@ class Auth extends Base
 
     protected function indexAction($params)
     {
+        $email = $_COOKIE['email'];
+        $pass = $_COOKIE['pass'];
+
+        if (!empty($email) && !empty($pass)) {
+            $user = User::getByEmail($email);
+            // strcmp если = тогда 0, а 0 приобразуется в false, поэтому !strcmp() = true
+            $_SESSION['authorized'] = !strcmp($user->email, $email) && !strcmp($user->password, $pass);
+        }
+        
         $this->loginAction();
     }
 
@@ -174,6 +167,22 @@ class Auth extends Base
     {
         $this->view->title = $this->lang->findByKey('loginAuthTitle');
         $this->view->icon = 'lock.png';
+
+        if ($this->isPost()) {
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+
+            $_SESSION['authorized'] = User::authorization($email, $password);
+
+            if ($_POST['remember'] == 'on') {
+                $user = User::getByEmail($email);
+
+                $this->setCookie('email', $email);
+                $this->setCookie('pass', $user->password);
+            }
+            $this->redirect('/index');
+        }
+
         $this->view->renderTemplate('auth/index', [
             'content' => 'auth/login'
         ]);
@@ -195,8 +204,20 @@ class Auth extends Base
             session_unset();
             session_destroy();
         }
-        setcookie('email', '', Config::getCookieSettings('time_die_cookie'));
-        setcookie('pass', '', Config::getCookieSettings('time_die_cookie'));
+
+        $this->dieCookie('email');
+        $this->dieCookie('pass');
+
         $this->redirect('/auth');
+    }
+
+    private function dieCookie($name)
+    {
+        setcookie($name, '', Config::getCookieSettings('time_die_cookie'));
+    }
+
+    private function setCookie($name, $value)
+    {
+        setcookie($name, $value, Config::getCookieSettings('time_life_cookie'));
     }
 }
