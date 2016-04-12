@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Core\AbstractModel;
+use Core\Exceptions\DbException;
 use Core\Exceptions\ModelException;
 
 /**
@@ -19,12 +20,6 @@ class User extends AbstractModel
     public $email;
     public $password;
     protected $education_id;
-
-    public static function authorization($email, $password): bool
-    {
-        $result = self::getDb()->nativeQuery('SELECT email, password FROM user WHERE email = ?', [$email])[0];
-        return !strcmp($email, $result['email']) && password_verify($password, $result['password']);
-    }
 
     function __get($name)
     {
@@ -66,6 +61,12 @@ class User extends AbstractModel
         return self::getBy('email', $email)[0];
     }
 
+    public static function authorization($email, $password): bool
+    {
+        $result = self::getDb()->nativeQuery('SELECT email, password FROM user WHERE email = ?', [$email])[0];
+        return !strcmp($email, $result['email']) && password_verify($password, $result['password']);
+    }
+
     public function save()
     {
         if (!isset($this->education)) {
@@ -74,167 +75,38 @@ class User extends AbstractModel
 
         self::getDb()->beginTransaction();
 
-        self::getDb()->execute('INSERT INTO ' . self::getTableName() .
-            '(lastName, firstName, patronymic, yearOfBirth, sex, email, password, education_id) VALUES(?,?,?,?,?,?,?,?)', [
-            $this->lastName,
-            $this->firstName,
-            $this->patronymic,
-            $this->yearOfBirth,
-            $this->sex,
-            $this->email,
-            password_hash($this->password, PASSWORD_BCRYPT),
-            $this->education->id
-        ]);
-        $this->id = self::getDb()->lastInsertId();
+        try {
+            self::getDb()->execute('INSERT INTO ' . self::getTableName() .
+                '(lastName, firstName, patronymic, yearOfBirth, sex, email, password, education_id) VALUES(?,?,?,?,?,?,?,?)', [
+                $this->lastName,
+                $this->firstName,
+                $this->patronymic,
+                $this->yearOfBirth,
+                $this->sex,
+                $this->email,
+                password_hash($this->password, PASSWORD_BCRYPT),
+                $this->education->id
+            ]);
 
-        if (isset($this->about)) {
-            $this->about->user_id = $this->id;
-            $this->about->save();
+            $this->id = self::getDb()->lastInsertId();
+            $this->saveNotRequiredFields($this->id);
+
+            self::getDb()->commitTransaction();
+        } catch (DbException $e) {
+            self::getDb()->rollbackTransaction();
+            throw new ModelException('An error occurred while saving user data', $e);
         }
 
-        if (isset($this->location)) {
-            $this->location->user_id = $this->id;
-            $this->location->save();
-        }
-
-        if (isset($this->maritalStatus)) {
-            $this->maritalStatus->user_id = $this->id;
-            $this->maritalStatus->save();
-        }
-
-        if (isset($this->phone)) {
-            $this->phone->user_id = $this->id;
-            $this->phone->save();
-        }
-
-        if (isset($this->photo)) {
-            $this->photo->user_id = $this->id;
-            $this->photo->save();
-        }
-
-        if (isset($this->work)) {
-            $this->work->user_id = $this->id;
-            $this->work->save();
-        }
-
-
-        self::getDb()->commitTransaction();
     }
 
-//    /**
-//     * Метод возвращает полную информацию о пользователе
-//     * @param int $userId - id пользователя
-//     * @return array
-//     */
-//    public static function getUserInfo(int $userId)
-//    {
-//        $result = $this->dbConnect->select('CALL getUserInfo(?)', array($userId));
-//        return isset($result) ? $result[0] : NULL;
-//        return self::getConn()->query('CALL getUserInfo(?)', [$userId], self::getClass());
-//    }
-
-//    /**
-//     * Метод добавляет информацию о пользователе в базу данных
-//     * @param UserData $userData - Пользовательские данные
-//     * @throws ExceptionModel
-//     */
-//    public function add(UserData $userData)
-//    {
-//        if ($this->getByEmail($userData->email) != NULL) {
-//            throw new ExceptionModel(Lang::getInstance()->get('emailExists')); // 'Данный E-mail (логин) уже занят'
-//        }
-//
-//        $this->dbConnect->beginTransaction();
-//        try {
-//            $this->dbConnect->insert("INSERT INTO users
-//                (lastName,
-//                 firstName,
-//                 patronymic,
-//                 yearOfBirth,
-//                 sex,
-//                 educations_id,
-//                 email,
-//                 password)
-//                VALUES(?, ?, ?, DATE_FORMAT(STR_TO_DATE(?,'%d.%m.%Y'),'%Y-%m-%d'), ?, ?, ?, ?)", array(
-//                $userData->lastName,
-//                $userData->firstName,
-//                $userData->patronymic,
-//                $userData->day . '.' . $userData->month . '.' . $userData->year,
-//                $userData->sex,
-//                $userData->education,
-//                $userData->email,
-//                md5($userData->pass1),
-//            ));
-//
-//            $userId = $this->dbConnect->lastInsertId();
-//            $this->saveOptionalData($userId, $userData);
-//
-//            $this->dbConnect->commitTransaction();
-//            return $userId;
-//        } catch (ExceptionModel $exc) {
-//            $this->dbConnect->rollBackTransaction();
-//            throw new ExceptionModel(Lang::getInstance()->get('userAddError') . '<br />' . $exc->getMessage()); // 'Ошибка добавления нового пользователя.  '
-//        } catch (Exception $exc) {
-//            $this->dbConnect->rollBackTransaction();
-//            throw new ExceptionModel(Lang::getInstance()->get('unknownAddUserError')); // 'Произошла непредвиденная ошибка, попробуйте повторить действие позже!'
-//        }
-//    }
-//
-//    /**
-//     * Проверяем есть ли такой E-mail (логин) в базе
-//     * @param string $email - E-mail пользователя
-//     * @return array
-//     */
-//    public function getByEmail($email)
-//    {
-//        $result = $this->dbConnect->select("SELECT * FROM users WHERE email = ?", array($email));
-//        return empty($result) ? NULL : $result[0];
-//    }
-//
-//    /**
-//     * Сохраняем не обязательные поля
-//     * @param int $userId - id пользователя
-//     */
-//    private function saveOptionalData($userId, UserData $userData)
-//    {
-//        $locations = new M_Locations();
-//        $abouts = new M_Abouts();
-//        $maritalStatus = new M_MaritalStatus();
-//        $photos = new M_Photos();
-//        $works = new Work();
-//        $phones = new M_Phones();
-//
-//        if (!empty($userData->maritalStatus))
-//            $maritalStatus->addRecord($userId, $userData->maritalStatus);
-//
-//        if (!empty($userData->locations))
-//            $locations->addRecord($userId, $userData->locations);
-//
-//        if (!empty($userData->about))
-//            $abouts->addRecord($userId, $userData->about);
-//
-//        if (!empty($userData->photo['name']))
-//            $photos->savePhoto($userId, $userData->photo);
-//
-//        if (!empty($userData->organization))
-//            $works->addRecord($userId, $userData);
-//
-//        if (!empty($userData->phone))
-//            $phones->addRecord($userId, $userData->phone);
-//    }
-//
-//    /**
-//     * Метод удаляет пользователя из базы данных
-//     * @param int $id - id пользователя
-//     * @throws ExceptionModel
-//     */
-//    public function delete($id)
-//    {
-//        try {
-//            $this->dbConnect->delete("DELETE FROM users WHERE id = ?", $id);
-//        } catch (Exception $exc) {
-//            throw new ExceptionModel(Lang::getInstance()->get('deleteUserError')); // 'Ошибка при удалении пользователя.'
-//        }
-//    }
+    private function saveNotRequiredFields(int $userId)
+    {
+        foreach ($this as $field) {
+            if ($field instanceof AbstractModel && !$field instanceof Education) {
+                $field->user_id = $userId;
+                $field->save();
+            }
+        }
+    }
 
 }
