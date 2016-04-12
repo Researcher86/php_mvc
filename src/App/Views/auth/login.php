@@ -20,8 +20,7 @@
             </tr>
             <tr>
                 <td style="text-align: center;">
-                    <span style="color: red;
-                          font-size: 13px;"><?= $error ?></span>
+                    <span style="color: red; font-size: 13px;"><?= $error ?></span>
                 </td>
             </tr>
         </table>
