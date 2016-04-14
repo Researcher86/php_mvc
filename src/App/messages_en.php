@@ -3,7 +3,7 @@
 return [
     'loginAuthTitle' => 'Authorization',
     'loginRegTitle' => 'Check In',
-    'loginError' => 'ncorrect login or password',
+    'loginError' => 'Incorrect login or password',
     'login' => 'Login',
     'exit' => 'Exit',
     'remember' => 'remember',

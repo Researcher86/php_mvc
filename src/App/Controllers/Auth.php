@@ -151,45 +151,67 @@ class Auth extends Base
 
     protected function indexAction($params)
     {
+        $this->loginAction();
+    }
+
+    protected function loginAction()
+    {
+        if ($this->isRemember()) {
+            $_SESSION['authorized'] = true;
+//            $this->redirect('/index');
+        }
+
+
+        if ($this->isPost()) {
+            $this->authUser($_POST['email'], $_POST['password'], $_POST['remember'] == 'on');
+        }
+
+        $this->view->title = $this->lang->findByKey('loginAuthTitle');
+        $this->view->icon = 'lock.png';
+        $this->view->renderTemplate('auth/index', [
+            'content' => 'auth/login'
+        ]);
+    }
+
+    private function isRemember()
+    {
         $email = $_COOKIE['email'];
         $pass = $_COOKIE['pass'];
 
         if (!empty($email) && !empty($pass)) {
             $user = User::getByEmail($email);
             // strcmp если = тогда 0, а 0 приобразуется в false, поэтому !strcmp() = true
-            $_SESSION['authorized'] = !strcmp($user->email, $email) && !strcmp($user->password, $pass);
+            return !strcmp($user->email, $email) && !strcmp($user->password, $pass);
         }
-        
-        $this->loginAction();
+
+        return false;
     }
 
-    protected function loginAction()
+    private function authUser($email, $password, $remember)
     {
-        $this->view->title = $this->lang->findByKey('loginAuthTitle');
-        $this->view->icon = 'lock.png';
+        $authorization = User::authorization($email, $password);
 
-        if ($this->isPost()) {
-            $email = $_POST['email'];
-            $password = $_POST['password'];
+        if ($authorization) {
+            $_SESSION['authorized'] = $authorization;
 
-            $_SESSION['authorized'] = User::authorization($email, $password);
-
-            if ($_POST['remember'] == 'on') {
+            if ($remember) {
                 $user = User::getByEmail($email);
 
-                $this->setCookie('email', $email);
+                $this->setCookie('email', $user->email);
                 $this->setCookie('pass', $user->password);
             }
             $this->redirect('/index');
+        } else {
+            $this->view->error = $this->lang->findByKey('loginError');
         }
-
-        $this->view->renderTemplate('auth/index', [
-            'content' => 'auth/login'
-        ]);
     }
 
     protected function registrationAction()
     {
+        if ($this->isPost()) {
+
+        }
+
         $this->view->title = $this->lang->findByKey('loginRegTitle');
         $this->view->icon = 'reg.png';
         $this->view->educations = Education::getAll();
