@@ -3,8 +3,6 @@
 namespace App\Models;
 
 use Core\AbstractModel;
-use Core\Exceptions\DbException;
-use Core\Exceptions\ModelException;
 
 /**
  * Модель для манипулирования данными пользователей
@@ -54,7 +52,7 @@ class User extends AbstractModel
     /**
      * @param $email
      * @return User
-     * @throws \Core\Exceptions\DbException
+     * @throws \Core\Exceptions\DbConnectException
      */
     public static function getByEmail($email)
     {
@@ -74,34 +72,23 @@ class User extends AbstractModel
 
     public function save()
     {
-        if (!isset($this->education)) {
-            throw new ModelException('Education is null');
-        }
-
         self::getDb()->beginTransaction();
 
-        try {
-            self::getDb()->execute('INSERT INTO ' . self::getTableName() .
-                '(lastName, firstName, patronymic, yearOfBirth, sex, email, password, education_id) VALUES(?,?,?,?,?,?,?,?)', [
-                $this->lastName,
-                $this->firstName,
-                $this->patronymic,
-                $this->yearOfBirth,
-                $this->sex,
-                $this->email,
-                password_hash($this->password, PASSWORD_BCRYPT),
-                $this->education->id
-            ]);
+        self::getDb()->execute('INSERT INTO ' . self::getTableName() .
+            '(lastName, firstName, patronymic, yearOfBirth, sex, email, password, education_id) VALUES(?,?,?,?,?,?,?,?)', [
+            $this->lastName,
+            $this->firstName,
+            $this->patronymic,
+            $this->yearOfBirth,
+            $this->sex,
+            $this->email,
+            password_hash($this->password, PASSWORD_BCRYPT),
+            $this->education->id
+        ]);
+        $this->id = self::getDb()->lastInsertId();
+        $this->saveNotRequiredFields($this->id);
 
-            $this->id = self::getDb()->lastInsertId();
-            $this->saveNotRequiredFields($this->id);
-
-            self::getDb()->commitTransaction();
-        } catch (DbException $e) {
-            self::getDb()->rollbackTransaction();
-            throw new ModelException('An error occurred while saving user data', $e);
-        }
-
+        self::getDb()->commitTransaction();
     }
 
     private function saveNotRequiredFields(int $userId)

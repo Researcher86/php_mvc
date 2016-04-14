@@ -2,14 +2,14 @@
 
 namespace Core;
 
-use Core\Exceptions\DbException;
+use Core\Exceptions\DbConnectException;
 
 /**
  * Класс для соединения с БД
  * Class Db
  * @package App\Core
  */
-final class Db
+final class DbConnect
 {
     private $pdo;
 
@@ -21,7 +21,7 @@ final class Db
             $this->pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, FALSE);
             $this->pdo->exec("set names utf8");
         } catch (\PDOException $e) {
-            throw new DbException($e);
+            throw new DbConnectException($e, 'Create error');
         }
     }
 
@@ -39,7 +39,7 @@ final class Db
      * @param array $params - параметры
      * @param Object $class - Класс сущности
      * @return array - Возвращает результат в виде массива переданного класса сущности
-     * @throws DbException
+     * @throws DbConnectException
      */
     public function query(string $query, array $params, $class)
     {
@@ -48,7 +48,7 @@ final class Db
             $stmt->execute($params);
             return $stmt->fetchAll(\PDO::FETCH_CLASS, $class);
         } catch (\PDOException $e) {
-            throw new DbException($e);
+            throw new DbConnectException($e, 'Method query error');
         }
     }
 
@@ -57,7 +57,7 @@ final class Db
      * @param string $query - Подготовленный запрос
      * @param array $params - параметры
      * @return array - Возвращает результат в виде ассоциированного массива
-     * @throws DbException
+     * @throws DbConnectException
      */
     public function nativeQuery(string $query, array $params)
     {
@@ -66,7 +66,7 @@ final class Db
             $stmt->execute($params);
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
-            throw new DbException($e);
+            throw new DbConnectException($e, 'Method native query error');
         }
     } 
 
@@ -75,7 +75,7 @@ final class Db
      * @param string $query
      * @param array|NULL $params
      * @return boolean - Статус выполнения
-     * @throws DbException
+     * @throws DbConnectException
      */
     public function execute(string $query, array $params = NULL)
     {
@@ -83,39 +83,43 @@ final class Db
             $stmt = $this->pdo->prepare($query);
             return $stmt->execute($params);
         } catch (\PDOException $e) {
-            throw new DbException($e);
+            throw new DbConnectException($e, 'Method execute query error');
         }
     }
 
-    /**
-     * @param string $name [optional] Name of the sequence object from which the ID should be returned.
-     * @return string
-     */
     public function lastInsertId($name = null)
     {
-        return $this->pdo->lastInsertId($name);
-    }
-
-    /**
-     * @return array
-     */
-    public function getErrorInfo()
-    {
-        return $this->pdo->errorInfo();
+        $lastInsertId = $this->pdo->lastInsertId($name);
+        if (!is_numeric($lastInsertId)) {
+            throw new DbConnectException(null, 'Get last insert id incorrect');
+        }
+        return $lastInsertId;
     }
 
     public function beginTransaction()
     {
-        return $this->pdo->beginTransaction();
+        $beginTransaction = $this->pdo->beginTransaction();
+        if ($beginTransaction !== true) {
+            throw new DbConnectException('Transaction not started');
+        }
+        return $beginTransaction;
     }
 
     public function rollbackTransaction()
     {
-        return $this->pdo->rollback();
+        $rollback = $this->pdo->rollback();
+        if ($rollback !== true) {
+            throw new DbConnectException(null, 'Transaction not rollback');
+        }
+        return $rollback;
     }
 
     public function commitTransaction()
     {
-        return $this->pdo->commit();
+        $commit = $this->pdo->commit();
+        if ($commit !== true) {
+            throw new DbConnectException(null, 'Transaction not commit');
+        }
+        return $commit;
     }
 }

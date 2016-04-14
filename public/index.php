@@ -21,7 +21,7 @@ try {
     //TODO: Logging error business logic 500
     echo $e->getMessage();
     throw $e;
-} catch (\Core\Exceptions\DbException $e) {
+} catch (\Core\Exceptions\DbConnectException $e) {
     //TODO: Logging error db 500
     echo $e->getMessage();
     throw $e;

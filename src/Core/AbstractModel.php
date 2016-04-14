@@ -28,10 +28,10 @@ abstract class AbstractModel
         return self::getDb()->query('SELECT * FROM ' . self::getTableName() . ' WHERE ' . $column . ' = ?', [$value], self::getClassName());
     }
 
-    final public static function getDb(): Db
+    final public static function getDb(): DbConnect
     {
         if (self::$db == null) {
-            self::$db = new Db(Config::getDbSettings());
+            self::$db = new DbConnect(Config::getDbSettings());
         }
         return self::$db;
     }
