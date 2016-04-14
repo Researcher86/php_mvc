@@ -49,11 +49,6 @@ class User extends AbstractModel
         return isset($this->$name);
     }
 
-    /**
-     * @param $email
-     * @return User
-     * @throws \Core\Exceptions\DbConnectException
-     */
     public static function getByEmail($email)
     {
         return self::getBy('email', $email)[0];
