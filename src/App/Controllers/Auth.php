@@ -213,11 +213,13 @@ class Auth extends Base
 
     private function dieCookie($name)
     {
-        setcookie($name, '', Config::getCookieSettings('time_die_cookie'));
+        $cookieSettings = Config::getCookieSettings('time_die_cookie');
+        setcookie($name, '', $cookieSettings, '/');
     }
 
     private function setCookie($name, $value)
     {
-        setcookie($name, $value, Config::getCookieSettings('time_life_cookie'));
+        $cookieSettings = Config::getCookieSettings('time_life_cookie');
+        setcookie($name, $value, $cookieSettings, '/');
     }
 }
