@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Core\AbstractModel;
+use Core\Exceptions\ModelException;
 
 /**
  * Модель для манипулирования данными пользователей
@@ -67,6 +68,11 @@ class User extends AbstractModel
 
     public function save()
     {
+        $user = self::getByEmail($this->email);
+        if ($user->email == $this->email) {
+            throw new ModelException('emailExists');
+        }
+
         self::getDb()->beginTransaction();
 
         self::getDb()->execute('INSERT INTO ' . self::getTableName() .
@@ -74,7 +80,7 @@ class User extends AbstractModel
             $this->lastName,
             $this->firstName,
             $this->patronymic,
-            $this->yearOfBirth,
+            $this->yearOfBirth->format('Y-m-d'),
             $this->sex,
             $this->email,
             password_hash($this->password, PASSWORD_BCRYPT),
@@ -94,6 +100,80 @@ class User extends AbstractModel
                 $field->save();
             }
         }
+    }
+
+    public static function create($data)
+    {
+        $user = new User();
+
+        $user->lastName = trim($data['lastName']);
+        if (empty($user->lastName)) {
+            throw new ModelException('lastNameEmpty');
+        }
+
+        $user->firstName = trim($data['firstName']);
+        if (empty($user->firstName)) {
+            throw new ModelException('firstNameEmpty');
+        }
+
+        $user->patronymic = trim($data['patronymic']);
+        if (empty($user->patronymic)) {
+            throw new ModelException('patronymicEmpty');
+        }
+
+        $user->education = Education::getById($data['education']);
+
+        if (!checkdate($data['month'], $data['day'], $data['year'])) {
+            throw new ModelException('incorrectDate');
+        }
+        $user->yearOfBirth = new \DateTime( $data['year'] . '-' . $data['month'] . '-' . $data['day']);
+        $user->sex = $data['sex'];
+
+        if (!empty(trim($data['locations']))) {
+            $user->location = new Location();
+            $user->location->name = trim($data['locations']);
+        }
+
+        if (!empty(trim($data['maritalStatus']))) {
+            $user->maritalStatus = new MaritalStatus();
+            $user->maritalStatus->name = trim($data['maritalStatus']);
+        }
+
+        if (!empty(trim($data['about']))) {
+            $user->about = new About();
+            $user->about->about = trim($data['about']);
+        }
+
+        if ($data['photo']['error'] === 0) {
+            $user->photo = Photo::create($data['photo']);
+        }
+
+        $user->work = new Work();
+        $user->work->organization = $data['organization'];
+        $user->work->post = $data['post'];
+        $user->work->jobStartMonth = $data['workMonth1'];
+        $user->work->jobStartYear = $data['workYear1'];
+        $user->work->forNow = $data['forNow'] == 'on';
+        $user->work->jobStopMonth = $data['workMonth2'];
+        $user->work->jobStopYear = $data['workYear2'];
+        $user->work->duties = $data['duties'];
+
+
+        $user->email = $data['email'];
+        if (!filter_var($user->email, FILTER_VALIDATE_EMAIL)) {
+            throw new ModelException('incorrectEmail'); // 'Некорректный e-mail адрес'
+        }
+
+        if ($data['pass1'] != $data['pass2']) {
+            throw new ModelException('pass1NotPass2'); // 'Пароли не совпадают. Пожалуйста, проверьте.'
+        }
+
+        $user->password = $data['pass1'];
+
+        $user->phone = new Phone();
+        $user->phone->phone = $data['phone'];
+
+        return $user;
     }
 
 }

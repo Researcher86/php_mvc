@@ -16,7 +16,7 @@ return [
         'prefix' => __DIR__ . '/Views/',
         'suffix' => '.php'
     ],
-    'user_files_dir' => 'public/userfiles/',
+    'user_files_dir' => '/userfiles/',
     'cookie' => [
         'time_life_cookie' => time() + 60 * 60 * 24 * 15,
         'time_die_cookie' => time() - 300

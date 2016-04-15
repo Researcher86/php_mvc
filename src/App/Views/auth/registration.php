@@ -16,7 +16,7 @@
             <tr>
                 <td><?= $lang->findByKey('lastName'); ?> <span>*</span></td>
                 <td>
-                    <input id="lastName" name="lastName" class="inPut" type="text" value="<?= $lastName; ?>" autofocus="" onfocus="lastNameOnFocus(this)" onblur="lastNameOnBlur(this)"/>
+                    <input id="lastName" name="lastName" class="inPut" type="text" value="<?= $user->lastName; ?>" autofocus="" onfocus="lastNameOnFocus(this)" onblur="lastNameOnBlur(this)"/>
                 </td>
                 <td class="hint">
                     <span id="lastNameHint" style="display: none;"><nobr><?= $lang->findByKey('lastNameHint'); ?></nobr></span>
@@ -30,7 +30,7 @@
             <tr>
                 <td><?= $lang->findByKey('firstName'); ?> <span>*</span></td>
                 <td>
-                    <input id="firstName" class="inPut" name="firstName" value="<?= $firstName ?>" type="text" onfocus="firstNameOnFocus(this)" onblur="firstNameOnBlur(this)"/>
+                    <input id="firstName" class="inPut" name="firstName" value="<?= $user->firstName ?>" type="text" onfocus="firstNameOnFocus(this)" onblur="firstNameOnBlur(this)"/>
                 </td>
                 <td class="hint">
                     <span id="firstNameHint" style="display: none;"><?= $lang->findByKey('firstNameHint'); ?></span>
@@ -44,7 +44,7 @@
             <tr>
                 <td><?= $lang->findByKey('patronymic'); ?> <span>*</span></td>
                 <td>
-                    <input id="patronymic" class="inPut" name="patronymic" value="<?= $patronymic ?>" type="text" onfocus="patronymicOnFocus(this)" onblur="patronymicOnBlur(this)"/>
+                    <input id="patronymic" class="inPut" name="patronymic" value="<?= $user->patronymic ?>" type="text" onfocus="patronymicOnFocus(this)" onblur="patronymicOnBlur(this)"/>
                 </td>
                 <td class="hint">
                     <span id="patronymicHint" style="display: none;"><?= $lang->findByKey('patronymicHint'); ?></span>
@@ -63,19 +63,19 @@
                     <select id="day" name="day" onfocus="yearOfBirthOnFocus(this)" onblur="yearOfBirthOnBlur(this)">
                         <option value="" selected=""><?= $lang->findByKey('day'); ?></option>
                         <?php for ($i = 1; $i <= 31; $i++): ?>
-                            <option value="<?= $i ?>" <?= $day == $i ? 'selected' : ''; ?>><?= $i ?></option>
+                            <option value="<?= $i ?>" <?= date_parse($user->yearOfBirth)['day'] == $i ? 'selected' : ''; ?>><?= $i ?></option>
                         <?php endfor; ?>
                     </select>
                     <select id="month" name="month" onfocus="yearOfBirthOnFocus(this)" onblur="yearOfBirthOnBlur(this)">
                         <option value="" selected=""><?= $lang->findByKey('month'); ?></option>
                         <?php for ($i = 1; $i <= 12; $i++): ?>
-                            <option value="<?= $i ?>" <?= $month == $i ? 'selected' : ''; ?>><?= $lang->findByKey('month' . $i); ?></option>
+                            <option value="<?= $i ?>" <?= date_parse($user->yearOfBirth)['month'] == $i ? 'selected' : ''; ?>><?= $lang->findByKey('month' . $i); ?></option>
                         <?php endfor; ?>
                     </select>
                     <select id="year" name="year" onfocus="yearOfBirthOnFocus(this)" onblur="yearOfBirthOnBlur(this)">
                         <option value="" selected=""><?= $lang->findByKey('year'); ?></option>
                         <?php for ($i = date('Y'); $i >= 1910; $i--) { ?>
-                            <option value="<?= $i ?>" <?= $year == $i ? 'selected' : ''; ?>><?= $i ?></option>
+                            <option value="<?= $i ?>" <?= date_parse($user->yearOfBirth)['year'] == $i ? 'selected' : ''; ?>><?= $i ?></option>
                         <?php } ?>
                     </select>
                 </td>
@@ -94,7 +94,7 @@
                     <nobr><?= $lang->findByKey('locations'); ?></nobr>
                 </td>
                 <td>
-                    <input id="locations" class="inPut" name="locations" value="<?= $locations; ?>" type="text" onfocus="locationsOnFocus(this)" onblur="locationsOnBlur(this)"/>
+                    <input id="locations" class="inPut" name="locations" value="<?= $user->location->name; ?>" type="text" onfocus="locationsOnFocus(this)" onblur="locationsOnBlur(this)"/>
                 </td>
                 <td class="hint">
                     <span id="locationsHint"><?= $lang->findByKey('notNecessarily'); ?></span>
@@ -106,10 +106,10 @@
             <tr>
                 <td><?= $lang->findByKey('paul'); ?></td>
                 <td>
-                    <input id="sex1" name="sex" type="radio" value="1" <?= $sex == 1 ? 'checked' : ''; ?>/>
+                    <input id="sex1" name="sex" type="radio" value="1" <?= $user->sex == 1 ? 'checked' : ''; ?>/>
                     <label for="sex1"><?= $lang->findByKey('man'); ?></label>
 
-                    <input id="sex2" name="sex" type="radio" value="2" <?= $sex == 2 ? 'checked' : ''; ?>/>
+                    <input id="sex2" name="sex" type="radio" value="2" <?= $user->sex == 2 ? 'checked' : ''; ?>/>
                     <label for="sex2"><?= $lang->findByKey('women'); ?></label>
                 </td>
                 <td class="hint"></td>
@@ -122,7 +122,7 @@
                     <nobr><?= $lang->findByKey('maritalStatus'); ?></nobr>
                 </td>
                 <td>
-                    <input id="maritalStatus" class="inPut" value="<?= $maritalStatus; ?>" name="maritalStatus" type="text" onfocus="maritalStatusOnFocus(this)" onblur="maritalStatusOnBlur(this)"/>
+                    <input id="maritalStatus" class="inPut" value="<?= $user->maritalStatus->name; ?>" name="maritalStatus" type="text" onfocus="maritalStatusOnFocus(this)" onblur="maritalStatusOnBlur(this)"/>
                 </td>
                 <td class="hint">
                     <span id="maritalStatusHint"><?= $lang->findByKey('notNecessarily'); ?></span>
@@ -138,7 +138,7 @@
                 <td>
                     <select id="education" style="width: 100%;" name="education" onfocus="educationOnFocus(this)" onblur="educationOnBlur(this)">
                         <?php foreach ($educations as $value) { ?>
-                            <option value="<?= $value->id ?>" <?= $education->id == $value->id ? 'selected' : ''; ?>><?= $value->{$lang->getLang()} ?></option>
+                            <option value="<?= $value->id ?>" <?= $user->education->id == $value->id ? 'selected' : ''; ?>><?= $value->{$lang->getLang()} ?></option>
                         <?php } ?>
                     </select>
                 </td>
@@ -154,7 +154,7 @@
                     <nobr><?= $lang->findByKey('about'); ?></nobr>
                 </td>
                 <td>
-                    <textarea id="about" name="about" onfocus="aboutOnFocus(this)" onblur="aboutOnBlur(this)"><?= $about; ?></textarea>
+                    <textarea id="about" name="about" onfocus="aboutOnFocus(this)" onblur="aboutOnBlur(this)"><?= $user->about->about; ?></textarea>
                 </td>
                 <td class="hint" style="vertical-align: top;">
                     <span id="aboutHint"><?= $lang->findByKey('notNecessarily'); ?></span>
@@ -198,7 +198,7 @@
                     <nobr><?= $lang->findByKey('organization'); ?></nobr>
                 </td>
                 <td>
-                    <input id="organization" class="inPut" type="text" name="organization" value="<?= $organization ?>"/>
+                    <input id="organization" class="inPut" type="text" name="organization" value="<?= $user->work->organization ?>"/>
                 </td>
                 <td class="hint"></td>
             </tr>
@@ -210,7 +210,7 @@
                     <nobr><?= $lang->findByKey('post'); ?></nobr>
                 </td>
                 <td>
-                    <input id="post" class="inPut" type="text" name="post" value="<?= $post ?>"/>
+                    <input id="post" class="inPut" type="text" name="post" value="<?= $user->work->post ?>"/>
                 </td>
                 <td class="hint"></td>
             </tr>
@@ -225,12 +225,12 @@
                     <select id="workMonth1" name="workMonth1" style="width: 90px;">
                         <option value="" selected=""><?= $lang->findByKey('month'); ?></option>
                         <?php for ($i = 1; $i <= 12; $i++) { ?>
-                            <option value="<?= $i ?>" <?= $workMonth1 == $i ? 'selected' : ''; ?>><?= $lang->findByKey('month' . $i); ?></option>
+                            <option value="<?= $i ?>" <?= $user->work->jobStartMonth == $i ? 'selected' : ''; ?>><?= $lang->findByKey('month' . $i); ?></option>
                         <?php } ?>
                     </select>
 
-                    <input id="workYear1" name="workYear1" type="text" value="<?= $workYear1 ?>" style="width: 50px;" maxlength="4" onKeyPress="return phoneOnKeyPress(event)"/>
-                    <input id="forNow" name="forNow" type="checkbox" <?= $forNow == 'on' ? 'checked' : ''; ?> onclick="forNowClick(this)"/>
+                    <input id="workYear1" name="workYear1" type="text" value="<?= $user->work->jobStartYear ?>" style="width: 50px;" maxlength="4" onKeyPress="return phoneOnKeyPress(event)"/>
+                    <input id="forNow" name="forNow" type="checkbox" <?= $user->work->forNow ? 'checked' : ''; ?> onclick="forNowClick(this)"/>
                     <label for="forNow"><?= $lang->findByKey('forNow'); ?></label>
                 </td>
                 <td class="hint"></td>
@@ -246,10 +246,10 @@
                     <select id="workMonth2" name="workMonth2" style="width: 90px;">
                         <option value="" selected=""><?= $lang->findByKey('month'); ?></option>
                         <?php for ($i = 1; $i <= 12; $i++) { ?>
-                            <option value="<?= $i ?>" <?= $workMonth2 == $i ? 'selected' : ''; ?>><?= $lang->findByKey('month' . $i); ?></option>
+                            <option value="<?= $i ?>" <?= $user->work->jobStopMonth == $i ? 'selected' : ''; ?>><?= $lang->findByKey('month' . $i); ?></option>
                         <?php } ?>
                     </select>
-                    <input id="workYear2" name="workYear2" type="text" value="<?= $workYear2 ?>" style="width: 50px;" maxlength="4" onKeyPress="return phoneOnKeyPress(event)"/>
+                    <input id="workYear2" name="workYear2" type="text" value="<?= $user->work->jobStopYear ?>" style="width: 50px;" maxlength="4" onKeyPress="return phoneOnKeyPress(event)"/>
                 </td>
                 <td class="hint"></td>
             </tr>
@@ -261,7 +261,7 @@
                     <nobr><?= $lang->findByKey('function'); ?></nobr>
                 </td>
                 <td>
-                    <textarea id="function" name="function"><?= $function ?></textarea>
+                    <textarea id="function" name="duties"><?= $user->work->duties ?></textarea>
                 </td>
                 <td class="hint"></td>
             </tr>
@@ -288,7 +288,7 @@
                     <nobr><?= $lang->findByKey('email'); ?> <span>*</span></nobr>
                 </td>
                 <td>
-                    <input id="email" class="inPut" name="email" type="text" value="<?= $email ?>" onfocus="emailOnFocus(this)" onblur="emailOnBlur(this)"/>
+                    <input id="email" class="inPut" name="email" type="text" value="<?= $user->email ?>" onfocus="emailOnFocus(this)" onblur="emailOnBlur(this)"/>
                 </td>
                 <td class="hint">
                     <span id="emailHint" style="display: none;"><?= $lang->findByKey('emailHint'); ?></span>
@@ -352,7 +352,7 @@
                 </td>
                 <td>
                     <strong style="float: left;">+7</strong>
-                    <input id="phone" class="inPut" name="phone" value="<?= $phone ?>" style="width: 92%; float: right;" type="text" maxlength="10" onKeyPress="return phoneOnKeyPress(event)"/>
+                    <input id="phone" class="inPut" name="phone" value="<?= $user->phone->phone ?>" style="width: 92%; float: right;" type="text" maxlength="10" onKeyPress="return phoneOnKeyPress(event)"/>
                 </td>
                 <td class="hint">
                     <!--<span id="phoneHint" style="display: none;">Телефон</span>-->
@@ -365,7 +365,7 @@
                 <td></td>
                 <td colspan="2">
                     <span id="warning"><?= $warning ?></span>
-                    <span id="error"><?= $error ?></span>
+                    <span id="error"><?= isset($error) ? $lang->findByKey($error) : $error ?></span>
                 </td>
             </tr>
             <tr class="br">

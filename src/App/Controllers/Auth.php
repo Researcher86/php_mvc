@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\Education;
 use App\Models\User;
 use Core\Config;
+use Core\Exceptions\ModelException;
 
 /**
  * Контроллер страницы авторизации
@@ -122,33 +123,6 @@ class Auth extends Base
 //        $this->_content = $this->render(self::VIEWS_PATCH . "registration.php");
 //    }
 //
-//    /**
-//     * Метод регистрации нового пользователя
-//     * @throws ExceptionController
-//     */
-//    private function registrationUser()
-//    {
-//        $post = $this->getParamPost();
-//        $post['photo'] = $this->getParamFile('photo');
-//        $userData = new UserData($post);
-//        $users = new M_Users();
-//
-//        try {
-//            $userData->isRequiredFieldsEmpty();
-//            $userData->isRequiredFieldsValid();
-//            $userId = $users->add($userData);
-//
-//            $this->userAuth($userId);
-//
-//        } catch (ExceptionValidate $exc) {
-//            $this->addPageData('warning', $exc->getMessage());
-//            throw new ExceptionController();
-//        } catch (ExceptionModel $exc) {
-//            $this->addPageData('error', $exc->getMessage());
-//            throw new ExceptionController();
-//        }
-//    }
-
     protected function indexAction($params)
     {
         $this->loginAction();
@@ -158,7 +132,7 @@ class Auth extends Base
     {
         if ($this->isRemember()) {
             $_SESSION['authorized'] = true;
-//            $this->redirect('/index');
+//            $this->redirect('/index'); // TODO: Разобратся с перенапровлением
         }
 
 
@@ -206,10 +180,45 @@ class Auth extends Base
         }
     }
 
+    //    /**
+//     * Метод регистрации нового пользователя
+//     * @throws ExceptionController
+//     */
+//    private function registrationUser()
+//    {
+//        $post = $this->getParamPost();
+//        $post['photo'] = $this->getParamFile('photo');
+//        $userData = new UserData($post);
+//        $users = new M_Users();
+//
+//        try {
+//            $userData->isRequiredFieldsEmpty();
+//            $userData->isRequiredFieldsValid();
+//            $userId = $users->add($userData);
+//
+//            $this->userAuth($userId);
+//
+//        } catch (ExceptionValidate $exc) {
+//            $this->addPageData('warning', $exc->getMessage());
+//            throw new ExceptionController();
+//        } catch (ExceptionModel $exc) {
+//            $this->addPageData('error', $exc->getMessage());
+//            throw new ExceptionController();
+//        }
+//    }
+    
     protected function registrationAction()
     {
         if ($this->isPost()) {
+            $data = $_POST;
+            $data['photo'] = $_FILES['photo'];
 
+            try { // TODO Доделать отправку модели User во View
+                $user = User::create($data);
+                $user->save();
+            } catch (ModelException $e) {
+                $this->view->error = $e->getMessage();
+            }
         }
 
         $this->view->title = $this->lang->findByKey('loginRegTitle');
