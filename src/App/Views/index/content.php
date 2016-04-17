@@ -64,14 +64,14 @@
         </tr>
         <tr>
             <td class="tblIfoLabel"><?= $lang->findByKey('gettingStarted'); ?></td>
-            <td><?= isset($user->work->jobStartMonth) ? $lang->findByKey('month' . $user->work->jobStartMonth) . ' ' . $user->work->jobStartYear : '' ?></td>
+            <td><?= isset($user->work->jobStartMonth) && $user->work->jobStartMonth !== 0 ? $lang->findByKey('month' . $user->work->jobStartMonth) . ' ' . $user->work->jobStartYear : '' ?></td>
         </tr>
         <tr>
             <td class="tblIfoLabel"><?= $lang->findByKey('gettingStoped'); ?></td>
             <?php if ($user->work->forNow) { ?>
                 <td><?= $lang->findByKey('forNow') ?></td>
             <?php } else { ?>
-                <td><?= isset($user->work->jobStopMonth) ? $lang->findByKey('month' . $user->work->jobStopMonth) . ' ' . $user->work->jobStopYear : '' ?></td>
+                <td><?= isset($user->work->jobStopMonth) && $user->work->jobStartMonth !== 0 ? $lang->findByKey('month' . $user->work->jobStopMonth) . ' ' . $user->work->jobStopYear : '' ?></td>
             <?php } ?>
         </tr>
         <tr>
