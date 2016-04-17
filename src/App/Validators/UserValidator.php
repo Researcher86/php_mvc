@@ -33,7 +33,7 @@ class UserValidator extends AbstractValidator
         }
 
         list($year, $month, $day) = explode('-', $this->user->yearOfBirth);
-        if (!checkdate($month, $day, $year)) {
+        if (!checkdate((int)$month, (int)$day, (int)$year)) {
             $this->handleError('incorrectDate');
         }
 

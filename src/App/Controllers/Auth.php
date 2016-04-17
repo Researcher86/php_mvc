@@ -85,12 +85,13 @@ class Auth extends Base
             $data = $_POST;
             $data['photo'] = $_FILES['photo'];
 
-            // TODO Доделать отправку модели User во View
             $user = User::create($data);
             $errors = new ValidateErrors();
 
             if ($user->validate($errors)) {
                 $user->save();
+                $_SESSION['authorized'] = true;
+                $this->redirect('/index/index/users/' . $user->id);
             }
 
             $this->view->user = $user;

@@ -77,7 +77,7 @@ class User extends AbstractModel
     public function checkEmail($email)
     {
         $user = self::getByEmail($email);
-        return $user->email == $email;
+        return $user->email !== null && $user->email == $email;
     }
 
     public function save()

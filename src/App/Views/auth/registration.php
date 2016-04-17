@@ -231,7 +231,7 @@
 
                     <input id="workYear1" name="workYear1" type="text" value="<?= $user->work->jobStartYear ?>" style="width: 50px;" maxlength="4" onKeyPress="return phoneOnKeyPress(event)"/>
                     <input id="forNow" name="forNow" type="checkbox" <?= $user->work->forNow ? 'checked' : ''; ?> onclick="forNowClick(this)"/>
-                    <label for="forNow"><?= $lang->findByKey('forNow'); ?></label>
+                    <label for="forNow"><?= $lang->findByKey('forNow') ?></label>
                 </td>
                 <td class="hint"></td>
             </tr>
@@ -364,9 +364,8 @@
             <tr>
                 <td></td>
                 <td colspan="2">
-<!--                    <span id="warning">--><?//= $warning ?><!--</span>-->
                     <?php foreach ($errors as $error): ?>
-                        <span id="error"><?= $lang->findByKey($error) ?></span>
+                        <div id="error"><?= $lang->findByKey($error) ?></div>
                     <?php endforeach; ?>
                 </td>
             </tr>
