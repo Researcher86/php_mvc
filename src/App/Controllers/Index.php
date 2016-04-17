@@ -15,8 +15,7 @@ class Index extends Base
 
     protected function indexAction($params)
     {
-//        $this->view->user = User::getById((int)$params[1]);
-        $this->view->user = User::getById(1);
+        $this->view->user = User::getById((int)$params[1]);
 
         $this->view->title = $this->lang->findByKey('webappTitle');
         $this->view->icon = "main.png";;
