@@ -19,11 +19,6 @@ class Photo extends AbstractBase
         if ($file['error'] !== 0) {
             return null;
         }
-        
-        $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-
-        if (!in_array($ext, ['gif', 'png', 'jpg']))
-            throw new ModelException('photoErrorHint'); // 'Выберите файл изображения (*.gif, *.jpg, *.png)'
 
         $userFilesDir = Config::getSettings('user_files_dir') . date('Y') . '/';
         $patch = __DIR__ . '/../../../public/' . $userFilesDir;
@@ -33,7 +28,7 @@ class Photo extends AbstractBase
         }
 
         while (true) {
-            $filename = uniqid('MyApp', true) . '.' . $ext;
+            $filename = uniqid('MyApp', true) . '.' . strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
             if (!file_exists($patch . $filename)) break;
         }
 
