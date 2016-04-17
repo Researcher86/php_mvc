@@ -6,6 +6,11 @@ use App\Models\Location;
 use Core\Validator\AbstractValidator;
 use Core\Validator\ValidateErrors;
 
+/**
+ * Валидатор для информации место жительства
+ * Class LocationValidator
+ * @package App\Validators
+ */
 class LocationValidator extends AbstractValidator
 {
 

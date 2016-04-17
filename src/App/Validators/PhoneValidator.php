@@ -6,6 +6,11 @@ use App\Models\Phone;
 use Core\Validator\AbstractValidator;
 use Core\Validator\ValidateErrors;
 
+/**
+ * Валидатор для информации номер телефона
+ * Class PhoneValidator
+ * @package App\Validators
+ */
 class PhoneValidator extends AbstractValidator
 {
 

@@ -6,6 +6,11 @@ use App\Models\About;
 use Core\Validator\AbstractValidator;
 use Core\Validator\ValidateErrors;
 
+/**
+ * Валидатор информации о себе
+ * Class AboutValidator
+ * @package App\Validators
+ */
 class AboutValidator extends AbstractValidator
 {
 

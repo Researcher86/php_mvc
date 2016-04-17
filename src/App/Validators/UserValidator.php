@@ -6,6 +6,11 @@ use App\Models\User;
 use Core\Validator\AbstractValidator;
 use Core\Validator\ValidateErrors;
 
+/**
+ * Валидатор для обязательной информации о пользователе
+ * Class UserValidator
+ * @package App\Validators
+ */
 class UserValidator extends AbstractValidator
 {
 
