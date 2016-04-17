@@ -64,14 +64,13 @@ class Auth extends Base
 
         if ($authorization) {
             $_SESSION['authorized'] = $authorization;
+            $user = User::getByEmail($email);
 
             if ($remember) {
-                $user = User::getByEmail($email);
-
                 $this->setCookie('email', $user->email);
                 $this->setCookie('pass', $user->password);
             }
-            $this->redirect('/index');
+            $this->redirect('/index/index/users/' . $user->id);
         } else {
             $this->view->error = $this->lang->findByKey('loginError');
         }
