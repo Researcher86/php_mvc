@@ -25,7 +25,7 @@ class Work extends AbstractBase
             $this->post,
             $this->jobStartMonth,
             $this->jobStartYear,
-            $this->forNow,
+            (int)$this->forNow,
             $this->jobStopMonth,
             $this->jobStopYear,
             $this->duties,
