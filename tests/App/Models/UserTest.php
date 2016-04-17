@@ -30,7 +30,7 @@ class UserTest extends AbstractBaseTest
         $user->firstName = 'Танат';
         $user->lastName = 'Альпенов';
         $user->patronymic = 'Маратович';
-        $user->yearOfBirth = new \DateTime('1986-07-22');
+        $user->yearOfBirth = '1986-07-22';
         $user->sex = 1;
         $user->education = Education::getById(2);
         $user->email = 'researcher2286@gmail.com';
@@ -87,7 +87,7 @@ class UserTest extends AbstractBaseTest
         $user->firstName = 'Танат';
         $user->lastName = 'Альпенов';
         $user->patronymic = 'Маратович';
-        $user->yearOfBirth = new \DateTime('1986-07-22');
+        $user->yearOfBirth = '1986-07-22';
         $user->sex = 1;
         $user->education = Education::getById(2);
         $user->email = 'researcher2286@gmail.com';
@@ -136,7 +136,7 @@ class UserTest extends AbstractBaseTest
         $data['firstName'] = 'Танат';
         $data['lastName'] = 'Альпенов';
         $data['patronymic'] = 'Маратович';
-        $data['yearOfBirth'] = new \DateTime('1986-07-22');
+        $data['yearOfBirth'] = '1986-07-22';
         $data["month"] = '07';
         $data["day"] = '22';
         $data["year"] = '1986';

@@ -20,4 +20,14 @@ class Phone extends AbstractBase
         $this->id = self::getDb()->lastInsertId();
         return $result;
     }
+
+    public static function create($txt)
+    {
+        if (!empty(trim($txt))) {
+            $phone = new self();
+            $phone->phone = trim($txt);
+            return $phone;
+        }
+        return null;
+    }
 }

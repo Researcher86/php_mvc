@@ -364,8 +364,10 @@
             <tr>
                 <td></td>
                 <td colspan="2">
-                    <span id="warning"><?= $warning ?></span>
-                    <span id="error"><?= isset($error) ? $lang->findByKey($error) : $error ?></span>
+<!--                    <span id="warning">--><?//= $warning ?><!--</span>-->
+                    <?php foreach ($errors as $error): ?>
+                        <span id="error"><?= $lang->findByKey($error) ?></span>
+                    <?php endforeach; ?>
                 </td>
             </tr>
             <tr class="br">

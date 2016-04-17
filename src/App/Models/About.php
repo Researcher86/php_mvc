@@ -17,4 +17,14 @@ class About extends AbstractBase
         return $result;
     }
 
+    public static function create($txt)
+    {
+        if (!empty(trim($txt))) {
+            $about = new self();
+            $about->about = trim($txt);
+            return $about;
+        }
+        return null;
+    }
+
 }

@@ -34,4 +34,36 @@ class Work extends AbstractBase
         $this->id = self::getDb()->lastInsertId();
         return $result;
     }
+
+    public static function create($data)
+    {
+        $organization = trim($data['organization']);
+        $post = trim($data['post']);
+        $jobStartMonth = (int)$data['workMonth1'];
+        $jobStartYear = (int)$data['workYear1'];
+        $forNow = $data['forNow'] == 'on';
+        $jobStopMonth = (int)$data['workMonth2'];
+        $jobStopYear = (int)$data['workYear2'];
+        $duties = trim($data['duties']);
+
+        if (!empty($organization) || !empty($post) || $jobStartMonth ||
+            $jobStartYear || $forNow || $jobStopMonth || $jobStopYear || !empty($duties)) {
+
+            $work = new self();
+            $work->organization = $organization;
+            $work->post = $post;
+            $work->jobStartMonth = $jobStartMonth;
+            $work->jobStartYear = $jobStartYear;
+            $work->forNow = $forNow;
+            $work->jobStopMonth = $jobStopMonth;
+            $work->jobStopYear = $jobStopYear;
+            $work->duties = $duties;
+
+            return $work;
+        }
+        return null;
+
+
+
+    }
 }

@@ -16,6 +16,10 @@ class Photo extends AbstractBase
 
     public static function create($file)
     {
+        if ($file['error'] !== 0) {
+            return null;
+        }
+        
         $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
 
         if (!in_array($ext, ['gif', 'png', 'jpg']))

@@ -20,4 +20,14 @@ class MaritalStatus extends AbstractBase
         $this->id = self::getDb()->lastInsertId();
         return $result;
     }
+
+    public static function create($name)
+    {
+        if (!empty(trim($name))) {
+            $maritalStatus = new self();
+            $maritalStatus->name = trim($name);
+            return $maritalStatus;
+        }
+        return null;
+    }
 }
