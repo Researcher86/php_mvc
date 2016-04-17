@@ -2,14 +2,18 @@
 
 namespace Core\Validator;
 
-
+/**
+ * Базовый класс для валидаторов
+ * Class AbstractValidator
+ * @package Core\Validator
+ */
 abstract class AbstractValidator
 {
     private $errors;
 
     /**
      * AbstractValidator constructor.
-     * @param array $errors
+     * @param ValidateErrors $errors
      */
     public function __construct(ValidateErrors $errors)
     {

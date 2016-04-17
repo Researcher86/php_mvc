@@ -2,7 +2,11 @@
 
 namespace Core\Validator;
 
-
+/**
+ * Класс для хранения ошибок валидации
+ * Class ValidateErrors
+ * @package Core\Validator
+ */
 class ValidateErrors
 {
     private $errors = [];
