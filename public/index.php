@@ -5,6 +5,8 @@ declare(strict_types = 1); //  Включить строгий режим для
 error_reporting(E_ALL ^ E_NOTICE);
 ini_set('display_errors', '1');
 
+session_start();
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $start_time = microtime(true);
