@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\Education;
 use App\Models\User;
 use Core\Config;
+use Core\Exceptions\ModelException;
 use Core\Validator\ValidateErrors;
 
 /**

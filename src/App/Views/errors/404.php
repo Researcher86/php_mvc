@@ -6,8 +6,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, minimum-scale=1, width=device-width">
-    <link rel="shortcut icon" href="/public/images/error.png" type="image/png">
-    <title><?= Lang::getInstance()->get('error'); ?></title>
+    <link rel="shortcut icon" href="/images/error.png" type="image/png">
+    <title><?= $lang->findByKey('error'); ?></title>
     <style>
         * {
             margin: 0;
@@ -55,8 +55,8 @@
 </head>
 <body>
 <p>
-    <ins><?php echo $error ?></ins>
+    <ins><?= $lang->findByKey('E404'); ?></ins>
 </p>
-<a href="/"><?= Lang::getInstance()->get('home'); ?></a>
+<a href="/"><?= $lang->findByKey('home'); ?></a>
 </body>
 </html>

@@ -98,5 +98,7 @@ return [
     'worksAddError' => 'An error occurred while saving the information "Experience"',
     'unknownError' => 'Unknown error. Unfortunately, the server is temporarily unavailable. Try to repeat the action later.',
     'emailExists' => 'E-mail exists',
-    'gettingStoped' => 'Getting Stoped'
+    'gettingStoped' => 'Getting Stoped',
+    'E404' => '404 - Page not found.',
+    'E500' => '500 - Internal server error.'
 ];

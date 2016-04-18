@@ -62,7 +62,7 @@ class View
      * @param string $layout - Макет
      * @param array $parts - Фрагменты
      */
-    public function renderTemplate(string $layout, array $parts)
+    public function renderTemplate(string $layout, array $parts = [])
     {
         foreach ($parts as $key => $viewName) {
             $this->$key = $this->render($viewName);

@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, minimum-scale=1, width=device-width">
     <link rel="shortcut icon" href="/public/images/error.png" type="image/png">
-    <title>Ошибка!</title>
+    <title><?= $lang->findByKey('error') ?></title>
     <style>
         * {
             margin: 0;
@@ -55,8 +55,7 @@
 </head>
 <body>
 <p>
-    <ins><?php echo $error ?></ins>
+    <ins><?= $lang->findByKey('E500'); ?></ins>
 </p>
-<a href="/">На главную</a>
 </body>
 </html>

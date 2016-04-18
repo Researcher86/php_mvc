@@ -55,13 +55,13 @@ abstract class Base extends AbstractController
     }
 
 
-    public function E404Action()
+    protected function E404Action()
     {
-
+        $this->view->renderTemplate('errors/404');
     }
 
-    public function E500Action()
+    protected function E500Action()
     {
-
+        $this->view->renderTemplate('errors/500');
     }
 }
