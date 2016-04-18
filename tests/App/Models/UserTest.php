@@ -118,10 +118,10 @@ class UserTest extends AbstractBaseTest
         $data['maritalStatus'] = 'Женат';
         $data['phone'] = '7011520885';
 
-//        $data['photo']['name'] = '1.png';
-//        $data['photo']['path'] = 'C:\OpenServer\domains\job.kz\public\userfiles\1.png';
-//        $data['photo']['type'] = 'image/png';
-//        $data['photo']['size'] = 20480;
+        $data['photo']['name'] = '1.png';
+        $data['photo']['path'] = 'C:\OpenServer\domains\job.kz\public\userfiles\1.png';
+        $data['photo']['type'] = 'image/png';
+        $data['photo']['size'] = 20480;
 
         $data['organization'] = 'КИнЭУ';
         $data['post'] = 'Инженер-программист';
@@ -136,7 +136,6 @@ class UserTest extends AbstractBaseTest
         $data['firstName'] = 'Танат';
         $data['lastName'] = 'Альпенов';
         $data['patronymic'] = 'Маратович';
-        $data['yearOfBirth'] = '1986-07-22';
         $data["month"] = '07';
         $data["day"] = '22';
         $data["year"] = '1986';

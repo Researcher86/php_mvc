@@ -5,7 +5,6 @@ namespace App\Controllers;
 use App\Models\Education;
 use App\Models\User;
 use Core\Config;
-use Core\Exceptions\ModelException;
 use Core\Validator\ValidateErrors;
 
 /**
@@ -86,9 +85,9 @@ class Auth extends Base
             $data['photo'] = $_FILES['photo'];
 
             $user = User::create($data);
-            $errors = new ValidateErrors();
+            $errors = $user->validate();
 
-            if ($user->validate($errors)) {
+            if (!$errors->hasError()) {
                 $user->save();
                 $_SESSION['authorized'] = true;
                 $this->redirect('/index/index/users/' . $user->id);

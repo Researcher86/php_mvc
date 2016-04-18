@@ -26,6 +26,8 @@ class User extends AbstractModel
     public $sex;
     public $email;
     public $password;
+    public $pass1;
+    public $pass2;
     protected $education_id;
 
     function __get($name)
@@ -142,35 +144,17 @@ class User extends AbstractModel
         return $user;
     }
 
-    public function validate(ValidateErrors $errors)
+    public function validate()
     {
+        $errors = new ValidateErrors();
+        
         (new UserValidator($this, $errors))->validate();
-
-        if (isset($this->work)) {
-            (new WorkValidator($this->work, $errors))->validate();
-        }
-
-        if (isset($this->location)) {
-            (new LocationValidator($this->location, $errors))->validate();
-        }
-
-        if (isset($this->maritalStatus)) {
-            (new MaritalStatusValidator($this->maritalStatus, $errors))->validate();
-        }
-
-        if (isset($this->about)) {
-            (new AboutValidator($this->about, $errors))->validate();
-        }
 
         if (isset($this->photo)) {
             (new PhotoValidator($this->photo, $errors))->validate();
         }
 
-        if (isset($this->phone)) {
-            (new PhoneValidator($this->phone, $errors))->validate();
-        }
-
-        return count($errors->getErrors()) == 0;
+        return $errors;
     }
 
 }

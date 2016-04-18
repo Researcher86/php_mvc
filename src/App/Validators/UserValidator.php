@@ -13,7 +13,6 @@ use Core\Validator\ValidateErrors;
  */
 class UserValidator extends AbstractValidator
 {
-
     private $user;
 
     public function __construct(User $user, ValidateErrors $errors)
@@ -42,7 +41,7 @@ class UserValidator extends AbstractValidator
             $this->handleError('incorrectDate');
         }
 
-        if ($this->user->pass1 !== $this->user->pass2) {
+        if (!isset($this->user->password) && (!isset($this->user->pass2) || !isset($this->user->pass2) || $this->user->pass1 !== $this->user->pass2)) {
             $this->handleError('pass1NotPass2'); // 'Пароли не совпадают. Пожалуйста, проверьте.'
         }
 
@@ -52,7 +51,6 @@ class UserValidator extends AbstractValidator
 
         if ($this->user->checkEmail($this->user->email)) {
             $this->handleError('emailExists');
-        }       
-
+        }
     }
 }

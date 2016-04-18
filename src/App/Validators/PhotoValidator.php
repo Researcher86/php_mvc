@@ -13,7 +13,6 @@ use Core\Validator\ValidateErrors;
  */
 class PhotoValidator extends AbstractValidator
 {
-
     private $photo;
 
     public function __construct(Photo $photo, ValidateErrors $errors)
@@ -30,5 +29,6 @@ class PhotoValidator extends AbstractValidator
         if (!in_array($ext, ['gif', 'png', 'jpg'])) {
             $this->handleError('photoErrorHint'); // 'Выберите файл изображения (*.gif, *.jpg, *.png)'
         }
+ 
     }
 }
