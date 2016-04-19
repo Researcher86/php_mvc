@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Language;
 use App\Models\User;
+use Core\Exceptions\E404Exception;
 
 /**
  * Контроллер главной страницы
@@ -16,6 +17,10 @@ class Index extends Base
     protected function indexAction($params)
     {
         $this->view->user = User::getById((int)$params[1]);
+
+        if (!isset($this->view->user)) {
+            throw new E404Exception('User not found');
+        }
 
         $this->view->title = $this->lang->findByKey('webappTitle');
         $this->view->icon = "main.png";;
