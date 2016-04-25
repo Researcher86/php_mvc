@@ -44,38 +44,6 @@ class Auth extends Base
         ]);
     }
 
-    private function isRemember()
-    {
-        $email = $_COOKIE['email'];
-        $pass = $_COOKIE['pass'];
-
-        if (!empty($email) && !empty($pass)) {
-            $user = User::getByEmail($email);
-            // strcmp если = тогда 0, а 0 приобразуется в false, поэтому !strcmp() = true
-            return !strcmp($user->email, $email) && !strcmp($user->password, $pass);
-        }
-
-        return false;
-    }
-
-    private function authUser($email, $password, $remember)
-    {
-        $authorization = User::authorization($email, $password);
-
-        if ($authorization) {
-            $_SESSION['authorized'] = $authorization;
-            $user = User::getByEmail($email);
-
-            if ($remember) {
-                $this->setCookie('email', $user->email);
-                $this->setCookie('pass', $user->password);
-            }
-            $this->redirect('/index/index/users/' . $user->id);
-        } else {
-            $this->view->error = $this->lang->findByKey('loginError');
-        }
-    }
-
     protected function registrationAction()
     {
         $this->view->errors = [];
@@ -116,6 +84,38 @@ class Auth extends Base
         $this->dieCookie('pass');
 
         $this->redirect('/auth');
+    }
+
+    private function isRemember()
+    {
+        $email = $_COOKIE['email'];
+        $pass = $_COOKIE['pass'];
+
+        if (!empty($email) && !empty($pass)) {
+            $user = User::getByEmail($email);
+            // strcmp если = тогда 0, а 0 приобразуется в false, поэтому !strcmp() = true
+            return !strcmp($user->email, $email) && !strcmp($user->password, $pass);
+        }
+
+        return false;
+    }
+
+    private function authUser($email, $password, $remember)
+    {
+        $authorization = User::authorization($email, $password);
+
+        if ($authorization) {
+            $_SESSION['authorized'] = $authorization;
+            $user = User::getByEmail($email);
+
+            if ($remember) {
+                $this->setCookie('email', $user->email);
+                $this->setCookie('pass', $user->password);
+            }
+            $this->redirect('/index/index/users/' . $user->id);
+        } else {
+            $this->view->error = $this->lang->findByKey('loginError');
+        }
     }
 
     private function dieCookie($name)

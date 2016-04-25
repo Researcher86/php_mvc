@@ -30,36 +30,6 @@ class User extends AbstractModel
     public $pass2;
     protected $education_id;
 
-    function __get($name)
-    {
-        switch ($name) {
-            case 'about':
-                return About::getByUserId($this->id);
-            case 'education':
-                return Education::getById($this->education_id);
-            case 'location':
-                return Location::getByUserId($this->id);
-            case 'maritalStatus':
-                return MaritalStatus::getByUserId($this->id);
-            case 'phone':
-                return Phone::getByUserId($this->id);
-            case 'photo':
-                return Photo::getByUserId($this->id);
-            case 'work':
-                return Work::getByUserId($this->id);
-        }
-    }
-
-    function __set($name, $value)
-    {
-        $this->$name = $value;
-    }
-
-    function __isset($name)
-    {
-        return isset($this->$name);
-    }
-
     public static function getByEmail($email)
     {
         return self::getBy('email', $email)[0];
@@ -107,16 +77,6 @@ class User extends AbstractModel
         self::getDb()->commitTransaction();
     }
 
-    private function saveNotRequiredFields(int $userId)
-    {
-        foreach ($this as $field) {
-            if ($field instanceof AbstractModel && !$field instanceof Education) {
-                $field->user_id = $userId;
-                $field->save();
-            }
-        }
-    }
-
     public static function create($data)
     {
         $user = new User();
@@ -147,7 +107,7 @@ class User extends AbstractModel
     public function validate()
     {
         $errors = new ValidateErrors();
-        
+
         (new UserValidator($this, $errors))->validate();
 
         if (isset($this->photo)) {
@@ -155,6 +115,46 @@ class User extends AbstractModel
         }
 
         return $errors;
+    }
+
+    function __get($name)
+    {
+        switch ($name) {
+            case 'about':
+                return About::getByUserId($this->id);
+            case 'education':
+                return Education::getById($this->education_id);
+            case 'location':
+                return Location::getByUserId($this->id);
+            case 'maritalStatus':
+                return MaritalStatus::getByUserId($this->id);
+            case 'phone':
+                return Phone::getByUserId($this->id);
+            case 'photo':
+                return Photo::getByUserId($this->id);
+            case 'work':
+                return Work::getByUserId($this->id);
+        }
+    }
+
+    function __set($name, $value)
+    {
+        $this->$name = $value;
+    }
+
+    function __isset($name)
+    {
+        return isset($this->$name);
+    }
+
+    private function saveNotRequiredFields(int $userId)
+    {
+        foreach ($this as $field) {
+            if ($field instanceof AbstractModel && !$field instanceof Education) {
+                $field->user_id = $userId;
+                $field->save();
+            }
+        }
     }
 
 }

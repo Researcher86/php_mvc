@@ -12,22 +12,6 @@ abstract class AbstractModel
     public $id;
     private static $db;
 
-    protected static function getTableName()
-    {
-        $class = array_pop(explode('\\', static::class));
-        return strtolower($class);
-    }
-
-    protected static function getClassName()
-    {
-        return static::class;
-    }
-
-    protected static function getBy($column, $value)
-    {
-        return self::getDb()->query('SELECT * FROM ' . self::getTableName() . ' WHERE ' . $column . ' = ?', [$value], self::getClassName());
-    }
-
     final public static function getDb(): DbConnect
     {
         if (self::$db == null) {
@@ -59,5 +43,21 @@ abstract class AbstractModel
     public static function getCount()
     {
         return self::getDb()->nativeQuery('SELECT count(*) AS cnt FROM ' . self::getTableName(), [])[0]['cnt'];
+    }
+
+    protected static function getTableName()
+    {
+        $class = array_pop(explode('\\', static::class));
+        return strtolower($class);
+    }
+
+    protected static function getClassName()
+    {
+        return static::class;
+    }
+
+    protected static function getBy($column, $value)
+    {
+        return self::getDb()->query('SELECT * FROM ' . self::getTableName() . ' WHERE ' . $column . ' = ?', [$value], self::getClassName());
     }
 }

@@ -21,21 +21,6 @@ class View
         $this->suffix = $suffix;        
     }
 
-    function __get($name)
-    {
-        return $this->data[$name];
-    }
-
-    function __set($name, $value)
-    {
-        $this->data[$name] = $value;
-    }
-
-    function __isset($name)
-    {
-        return isset($this->data[$name]);
-    }
-
     /**
      * Функция для рендеринга шаблонов
      * @param string $viewName - Файл шаблона
@@ -69,6 +54,21 @@ class View
         }
 
         echo $this->render($layout);
+    }
+
+    function __get($name)
+    {
+        return $this->data[$name];
+    }
+
+    function __set($name, $value)
+    {
+        $this->data[$name] = $value;
+    }
+
+    function __isset($name)
+    {
+        return isset($this->data[$name]);
     }
 
 }

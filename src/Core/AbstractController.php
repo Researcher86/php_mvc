@@ -18,6 +18,18 @@ abstract class AbstractController
         $this->view = new View($prefix, $suffix);
     }
 
+    /**
+     * Template Method
+     * @param $name string - Имя метода контроллера
+     * @param $params array - Параметры
+     */
+    final public function action($name, $params = null)
+    {
+        $this->beforeAction();
+        $this->$name($params);
+        $this->afterAction();
+    }
+
     final protected function isGet()
     {
         return $_SERVER['REQUEST_METHOD'] == 'GET';
@@ -39,18 +51,7 @@ abstract class AbstractController
     }
 
     abstract protected function beforeAction();
-    abstract protected function afterAction();
 
-    /**
-     * Template Method
-     * @param $name string - Имя метода контроллера
-     * @param $params array - Параметры
-     */
-    final public function action($name, $params = null)
-    {
-        $this->beforeAction();
-        $this->$name($params);
-        $this->afterAction();
-    }
+    abstract protected function afterAction();
 
 }

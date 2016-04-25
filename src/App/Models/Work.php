@@ -62,8 +62,5 @@ class Work extends AbstractBase
             return $work;
         }
         return null;
-
-
-
     }
 }

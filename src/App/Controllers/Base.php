@@ -37,8 +37,19 @@ abstract class Base extends AbstractController
     protected function afterAction()
     {
         // TODO: Implement afterAction() method.
-    }    
-    
+    }
+
+    protected function E404Action()
+    {
+        $this->view->renderTemplate('errors/404');
+    }
+
+
+    protected function E500Action()
+    {
+        $this->view->renderTemplate('errors/500');
+    }
+
     private function getUserLang(): string
     {
         $lang = $_COOKIE['lang'] ?? substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
@@ -52,16 +63,5 @@ abstract class Base extends AbstractController
     private function checkLang($lang): bool
     {
         return $lang == 'ru' || $lang == 'en';
-    }
-
-
-    protected function E404Action()
-    {
-        $this->view->renderTemplate('errors/404');
-    }
-
-    protected function E500Action()
-    {
-        $this->view->renderTemplate('errors/500');
     }
 }

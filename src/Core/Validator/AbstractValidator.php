@@ -20,11 +20,10 @@ abstract class AbstractValidator
         $this->errors = $errors;
     }
 
+    abstract public function validate();
 
     protected function handleError($error)
     {
         $this->errors->add($error);
     }
-
-    abstract public function validate();
 }

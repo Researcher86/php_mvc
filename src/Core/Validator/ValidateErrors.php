@@ -16,7 +16,6 @@ class ValidateErrors
         $this->errors[] = $error;
     }
 
-
     public function hasError()
     {
         return count($this->errors) > 0;
