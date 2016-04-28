@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Models;
+use Core\Exceptions\DbException;
+use Core\Exceptions\ModelException;
 
 /**
  * Модель управляет данными пользователей "Обо мне"
@@ -12,8 +14,12 @@ class About extends AbstractBase
 
     public function save()
     {
-        $result = self::getDb()->execute('INSERT INTO ' . self::getTableName() . ' (about, user_id) VALUES(?,?)', [$this->about, $this->user_id]);
-        $this->id = self::getDb()->lastInsertId();
+        try {
+            $result = self::getDb()->execute('INSERT INTO ' . self::getTableName() . ' (about, user_id) VALUES(?,?)', [$this->about, $this->user_id]);
+            $this->id = self::getDb()->lastInsertId();
+        } catch (DbException $e) {
+            throw new ModelException('About error save', $e);
+        }
         return $result;
     }
 

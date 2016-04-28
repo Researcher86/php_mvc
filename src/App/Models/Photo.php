@@ -2,6 +2,7 @@
 
 namespace App\Models;
 use Core\Config;
+use Core\Exceptions\DbException;
 use Core\Exceptions\ModelException;
 
 /**
@@ -46,9 +47,13 @@ class Photo extends AbstractBase
 
     public function save()
     {
-        $result = self::getDb()->execute('INSERT INTO ' . self::getTableName() . ' (path, type, size, user_id) VALUES(?,?,?,?)',
-            [$this->path, $this->type, $this->size, $this->user_id]);
-        $this->id = self::getDb()->lastInsertId();
+        try {
+            $result = self::getDb()->execute('INSERT INTO ' . self::getTableName() . ' (path, type, size, user_id) VALUES(?,?,?,?)',
+                [$this->path, $this->type, $this->size, $this->user_id]);
+            $this->id = self::getDb()->lastInsertId();
+        } catch (DbException $e) {
+            throw new ModelException('Photo error save', $e);
+        }
         return $result;
     }
 }

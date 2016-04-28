@@ -2,7 +2,7 @@
 
 namespace Core;
 
-use Core\Exceptions\DbConnectException;
+use Core\Exceptions\DbException;
 
 /**
  * Класс для соединения с БД
@@ -21,7 +21,7 @@ final class DbConnect
             $this->pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, FALSE);
             $this->pdo->exec("set names utf8");
         } catch (\PDOException $e) {
-            throw new DbConnectException($e, 'Create error');
+            throw new DbException($e, 'Create error');
         }
     }
 
@@ -39,7 +39,7 @@ final class DbConnect
      * @param array $params - параметры
      * @param Object $class - Класс сущности
      * @return array - Возвращает результат в виде массива переданного класса сущности
-     * @throws DbConnectException
+     * @throws DbException
      */
     public function query(string $query, array $params, $class)
     {
@@ -48,7 +48,7 @@ final class DbConnect
             $stmt->execute($params);
             return $stmt->fetchAll(\PDO::FETCH_CLASS, $class);
         } catch (\PDOException $e) {
-            throw new DbConnectException($e, 'Method query error');
+            throw new DbException($e, 'Method query error');
         }
     }
 
@@ -57,7 +57,7 @@ final class DbConnect
      * @param string $query - Подготовленный запрос
      * @param array $params - параметры
      * @return array - Возвращает результат в виде ассоциированного массива
-     * @throws DbConnectException
+     * @throws DbException
      */
     public function nativeQuery(string $query, array $params)
     {
@@ -66,7 +66,7 @@ final class DbConnect
             $stmt->execute($params);
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
-            throw new DbConnectException($e, 'Method native query error');
+            throw new DbException($e, 'Method native query error');
         }
     } 
 
@@ -75,7 +75,7 @@ final class DbConnect
      * @param string $query
      * @param array|NULL $params
      * @return boolean - Статус выполнения
-     * @throws DbConnectException
+     * @throws DbException
      */
     public function execute(string $query, array $params = NULL)
     {
@@ -83,7 +83,7 @@ final class DbConnect
             $stmt = $this->pdo->prepare($query);
             return $stmt->execute($params);
         } catch (\PDOException $e) {
-            throw new DbConnectException($e, 'Method execute query error');
+            throw new DbException($e, 'Method execute query error');
         }
     }
 
@@ -91,7 +91,7 @@ final class DbConnect
     {
         $lastInsertId = $this->pdo->lastInsertId($name);
         if (!is_numeric($lastInsertId)) {
-            throw new DbConnectException(null, 'Get last insert id incorrect');
+            throw new DbException(null, 'Get last insert id incorrect');
         }
         return $lastInsertId;
     }
@@ -100,7 +100,7 @@ final class DbConnect
     {
         $beginTransaction = $this->pdo->beginTransaction();
         if ($beginTransaction !== true) {
-            throw new DbConnectException('Transaction not started');
+            throw new DbException('Transaction not started');
         }
         return $beginTransaction;
     }
@@ -109,7 +109,7 @@ final class DbConnect
     {
         $rollback = $this->pdo->rollback();
         if ($rollback !== true) {
-            throw new DbConnectException(null, 'Transaction not rollback');
+            throw new DbException(null, 'Transaction not rollback');
         }
         return $rollback;
     }
@@ -118,7 +118,7 @@ final class DbConnect
     {
         $commit = $this->pdo->commit();
         if ($commit !== true) {
-            throw new DbConnectException(null, 'Transaction not commit');
+            throw new DbException(null, 'Transaction not commit');
         }
         return $commit;
     }

@@ -1,6 +1,8 @@
 <?php
 
 namespace Core;
+use Core\Exceptions\DbException;
+use Core\Exceptions\ModelException;
 
 /**
  * Базовый класс модели
@@ -15,14 +17,22 @@ abstract class AbstractModel
     final public static function getDb(): DbConnect
     {
         if (self::$db == null) {
-            self::$db = new DbConnect(Config::getDbSettings());
+            try {
+                self::$db = new DbConnect(Config::getDbSettings());
+            } catch (DbException $e) {
+                throw new ModelException('Error db connect', $e);
+            }
         }
         return self::$db;
     }
 
     public function delete()
     {
-        return self::getDb()->execute("DELETE FROM " . self::getTableName() . ' WHERE id = ?', [$this->id]);
+        try {
+            return self::getDb()->execute("DELETE FROM " . self::getTableName() . ' WHERE id = ?', [$this->id]);
+        } catch (DbException $e) {
+            throw new ModelException(sprintf('Error delete from %s, by id=%d', self::getTableName(), $this->id), $e);
+        }
     }
 
     public static function getById(int $id)
@@ -32,17 +42,29 @@ abstract class AbstractModel
 
     public static function deleteAll()
     {
-        return self::getDb()->execute("DELETE FROM " . self::getTableName(), []);
+        try {
+            return self::getDb()->execute("DELETE FROM " . self::getTableName(), []);
+        } catch (DbException $e) {
+            throw new ModelException(sprintf('Error delete all from %s', self::getTableName()), $e);
+        }
     }
 
     public static function getAll()
     {
-        return self::getDb()->query("SELECT * FROM " . self::getTableName(), [], self::getClassName());
+        try {
+            return self::getDb()->query("SELECT * FROM " . self::getTableName(), [], self::getClassName());
+        } catch (DbException $e) {
+            throw new ModelException(sprintf('Error get all from %s', self::getTableName()), $e);
+        }
     }
 
     public static function getCount()
     {
-        return self::getDb()->nativeQuery('SELECT count(*) AS cnt FROM ' . self::getTableName(), [])[0]['cnt'];
+        try {
+            return self::getDb()->nativeQuery('SELECT count(*) AS cnt FROM ' . self::getTableName(), [])[0]['cnt'];
+        } catch (DbException $e) {
+            throw new ModelException(sprintf('Error get count from %s', self::getTableName()), $e);
+        }
     }
 
     protected static function getTableName()
@@ -58,6 +80,10 @@ abstract class AbstractModel
 
     protected static function getBy($column, $value)
     {
-        return self::getDb()->query('SELECT * FROM ' . self::getTableName() . ' WHERE ' . $column . ' = ?', [$value], self::getClassName());
+        try {
+            return self::getDb()->query('SELECT * FROM ' . self::getTableName() . ' WHERE ' . $column . ' = ?', [$value], self::getClassName());
+        } catch (DbException $e) {
+            throw new ModelException(sprintf('Error get by from %s, %s=%s', self::getTableName(), $column, $value), $e);
+        }
     }
 }

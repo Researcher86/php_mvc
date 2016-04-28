@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Models;
+use Core\Exceptions\DbException;
+use Core\Exceptions\ModelException;
 
 /**
  * Модель управляет данными "Место проживания"
@@ -12,12 +14,16 @@ class Location extends AbstractBase
 
     public function save()
     {
-        $result = self::getDb()->execute('INSERT INTO ' . self::getTableName() . '(name, user_id) VALUES(?, ?)', [
-            $this->name,
-            $this->user_id
-        ]);
+        try {
+            $result = self::getDb()->execute('INSERT INTO ' . self::getTableName() . '(name, user_id) VALUES(?, ?)', [
+                $this->name,
+                $this->user_id
+            ]);
 
-        $this->id = self::getDb()->lastInsertId();
+            $this->id = self::getDb()->lastInsertId();
+        } catch (DbException $e) {
+            throw new ModelException('Location error save', $e);
+        }
         return $result;
     }
 

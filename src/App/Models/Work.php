@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Models;
+use Core\Exceptions\DbException;
+use Core\Exceptions\ModelException;
 
 /**
  * Модель управляет данными "Опыт работы"
@@ -19,19 +21,23 @@ class Work extends AbstractBase
 
     public function save()
     {
-        $result = self::getDb()->execute('INSERT INTO ' . self::getTableName() .
-            '(organization, post, jobStartMonth, jobStartYear, forNow, jobStopMonth, jobStopYear, duties, user_id) VALUES(?,?,?,?,?,?,?,?,?)', [
-            $this->organization,
-            $this->post,
-            $this->jobStartMonth,
-            $this->jobStartYear,
-            (int)$this->forNow,
-            $this->jobStopMonth,
-            $this->jobStopYear,
-            $this->duties,
-            $this->user_id
-        ]);
-        $this->id = self::getDb()->lastInsertId();
+        try {
+            $result = self::getDb()->execute('INSERT INTO ' . self::getTableName() .
+                '(organization, post, jobStartMonth, jobStartYear, forNow, jobStopMonth, jobStopYear, duties, user_id) VALUES(?,?,?,?,?,?,?,?,?)', [
+                $this->organization,
+                $this->post,
+                $this->jobStartMonth,
+                $this->jobStartYear,
+                (int)$this->forNow,
+                $this->jobStopMonth,
+                $this->jobStopYear,
+                $this->duties,
+                $this->user_id
+            ]);
+            $this->id = self::getDb()->lastInsertId();
+        } catch (DbException $e) {
+            throw new ModelException('Work error save', $e);
+        }
         return $result;
     }
 

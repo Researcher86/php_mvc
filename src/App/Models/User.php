@@ -10,6 +10,7 @@ use App\Validators\PhotoValidator;
 use App\Validators\UserValidator;
 use App\Validators\WorkValidator;
 use Core\AbstractModel;
+use Core\Exceptions\DbException;
 use Core\Exceptions\ModelException;
 use Core\Validator\ValidateErrors;
 
@@ -37,8 +38,12 @@ class User extends AbstractModel
 
     public static function authorization($email, $password): bool
     {
-        $result = self::getDb()->nativeQuery('SELECT email, password FROM user WHERE email = ?', [$email])[0];
-        return !strcmp($email, $result['email']) && password_verify($password, $result['password']);
+        try {
+            $result = self::getDb()->nativeQuery('SELECT email, password FROM user WHERE email = ?', [$email])[0];
+            return !strcmp($email, $result['email']) && password_verify($password, $result['password']);
+        } catch (DbException $e) {
+            throw new ModelException('User error authorization', $e);
+        }
     }
 
     public static function getHash($param)
@@ -48,8 +53,12 @@ class User extends AbstractModel
 
     public function checkEmail($email)
     {
-        $user = self::getByEmail($email);
-        return $user->email !== null && $user->email == $email;
+        try {
+            $user = self::getByEmail($email);
+            return $user->email !== null && $user->email == $email;
+        } catch (DbException $e) {
+            throw new ModelException('User error check email', $e);
+        }
     }
 
     public function save()
@@ -60,21 +69,26 @@ class User extends AbstractModel
 
         self::getDb()->beginTransaction();
 
-        self::getDb()->execute('INSERT INTO ' . self::getTableName() .
-            '(lastName, firstName, patronymic, yearOfBirth, sex, email, password, education_id) VALUES(?,?,?,?,?,?,?,?)', [
-            $this->lastName,
-            $this->firstName,
-            $this->patronymic,
-            $this->yearOfBirth,
-            $this->sex,
-            $this->email,
-            password_hash($this->password, PASSWORD_BCRYPT),
-            $this->education_id ?? $this->education->id
-        ]);
-        $this->id = self::getDb()->lastInsertId();
-        $this->saveNotRequiredFields($this->id);
+        try {
+            self::getDb()->execute('INSERT INTO ' . self::getTableName() .
+                '(lastName, firstName, patronymic, yearOfBirth, sex, email, password, education_id) VALUES(?,?,?,?,?,?,?,?)', [
+                $this->lastName,
+                $this->firstName,
+                $this->patronymic,
+                $this->yearOfBirth,
+                $this->sex,
+                $this->email,
+                password_hash($this->password, PASSWORD_BCRYPT),
+                $this->education_id ?? $this->education->id
+            ]);
+            $this->id = self::getDb()->lastInsertId();
+            $this->saveNotRequiredFields($this->id);
 
-        self::getDb()->commitTransaction();
+            self::getDb()->commitTransaction();
+        } catch (DbException $e) {
+            self::getDb()->rollbackTransaction();
+            throw new ModelException('User error save', $e);
+        }
     }
 
     public static function create($data)

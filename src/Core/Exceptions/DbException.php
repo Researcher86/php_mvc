@@ -7,7 +7,7 @@ use Exception;
  * Ошибка БД
  * @author Tanat
  */
-class DbConnectException extends AppException
+class DbException extends AppException
 {
     public function __construct(Exception $previous, $msg = 'Db error')
     {
