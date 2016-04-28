@@ -7,7 +7,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     public function testRootDirRoute()
     {
         $_SESSION['authorized'] = true;
-        $route = new Route('/index');
+        $route = new Route('/index/index/users/1');
         ob_start();
         $route->run();
         ob_end_clean();
