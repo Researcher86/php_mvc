@@ -12,7 +12,7 @@ use Core\View;
  * Class Base
  * @package App\Controllers
  */
-abstract class Base extends AbstractController
+class Base extends AbstractController
 {
     protected $lang;
     protected $login = true;

@@ -17,12 +17,12 @@ try {
     (new \Core\Route($_SERVER['REQUEST_URI']))->run();
 } catch (\Core\Exceptions\E404Exception $e) {
     //TODO: Logging error page not found 404
-    (new \Core\Route('/index/E404'))->run();
+    (new \Core\Route('/base/E404'))->run();
 //    echo $e->getMessage();
 //    throw $e;
 } catch (\Exception $e) {
     //TODO: Logging... 500
-    (new \Core\Route('/index/E500'))->run();
+    (new \Core\Route('/base/E500'))->run();
 //    echo $e->getMessage();
 //    throw $e;
 }

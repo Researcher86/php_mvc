@@ -19,7 +19,11 @@ class Index extends Base
         $this->view->user = User::getById((int)$params[1]);
 
         if (!isset($this->view->user)) {
-            throw new E404Exception('User not found');
+            $this->view->user = User::getById($_SESSION['userId']);
+
+            if (!isset($this->view->user)) {
+                throw new E404Exception('User not found');
+            }
         }
 
         $this->view->title = $this->lang->findByKey('webappTitle');
