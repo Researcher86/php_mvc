@@ -19,7 +19,7 @@ abstract class Base extends AbstractController
 
     public function __construct()
     {
-        if ($this->login && !$_SESSION['authorized']) {
+        if ($this->login && !$_SESSION['userId']) {
             $this->redirect('/auth');
         }
 
