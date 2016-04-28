@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\Language;
 use App\Models\User;
 use Core\Exceptions\E404Exception;
+use Core\Exceptions\ModelException;
 
 /**
  * Контроллер главной страницы
@@ -25,7 +26,7 @@ class Index extends Base
                 throw new E404Exception('User not found');
             }
         }
-
+        
         $this->view->title = $this->lang->findByKey('webappTitle');
         $this->view->icon = "main.png";;
         $this->view->renderTemplate('index/index', [

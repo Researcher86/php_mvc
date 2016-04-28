@@ -57,5 +57,6 @@
 <p>
     <ins><?= $lang->findByKey('E500'); ?></ins>
 </p>
+<a href="/"><?= $lang->findByKey('home'); ?></a>
 </body>
 </html>
